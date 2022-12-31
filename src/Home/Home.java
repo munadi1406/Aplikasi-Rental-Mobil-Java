@@ -6,7 +6,10 @@
 package Home;
 import config.layout;
 import Mobil.Mobil;
-
+import Pelanggan.Pelanggan;
+import Users.Users;
+import Sewa.Sewa;
+import Pendapatan.Pendapatan;
 /**
  *
  * @author Asus
@@ -77,6 +80,11 @@ public class Home extends javax.swing.JFrame {
         jButton48.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/users-solid_1.jpg"))); // NOI18N
         jButton48.setText("PELANGGAN");
         jButton48.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(153, 153, 255), 2, true));
+        jButton48.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton48ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton48, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 100, 190, 140));
 
         jButton49.setBackground(new java.awt.Color(255, 255, 255));
@@ -108,6 +116,11 @@ public class Home extends javax.swing.JFrame {
         jButton2.setBackground(new java.awt.Color(255, 255, 255));
         jButton2.setText("PENDAPATAN");
         jButton2.setBorder(null);
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel17Layout = new javax.swing.GroupLayout(jPanel17);
         jPanel17.setLayout(jPanel17Layout);
@@ -165,10 +178,14 @@ public class Home extends javax.swing.JFrame {
 
     private void jButton47ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton47ActionPerformed
         // TODO add your handling code here:
+        Sewa sewa = new Sewa();
+        sewa.setVisible(true);
     }//GEN-LAST:event_jButton47ActionPerformed
 
     private void jButton46ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton46ActionPerformed
         // TODO add your handling code here:
+        Users users = new Users();
+        users.setVisible(true);
     }//GEN-LAST:event_jButton46ActionPerformed
 
     private void jButton49ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton49ActionPerformed
@@ -176,6 +193,18 @@ public class Home extends javax.swing.JFrame {
         Mobil mobil = new Mobil();
         mobil.setVisible(true);
     }//GEN-LAST:event_jButton49ActionPerformed
+
+    private void jButton48ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton48ActionPerformed
+        // TODO add your handling code here:
+        Pelanggan pelanggan = new Pelanggan();
+        pelanggan.setVisible(true);
+    }//GEN-LAST:event_jButton48ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        Pendapatan pendapatan = new Pendapatan();
+        pendapatan.setVisible(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments

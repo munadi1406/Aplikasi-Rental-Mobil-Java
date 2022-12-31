@@ -28,7 +28,7 @@ public class Mobil extends javax.swing.JFrame {
         tblMobil = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         tblMobil.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

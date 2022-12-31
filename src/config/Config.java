@@ -29,7 +29,7 @@ public class Config {
                           pass       = "";
                try{
                       conn = (Connection) DriverManager.getConnection(host, user, pass);
-                      System.out.println("Koneksi Berhasil");
+//                      System.out.println("Koneksi Berhasil");
                }catch (SQLException err){
                        JOptionPane.showMessageDialog(null,"Koneksi Gagal","Eroor",JOptionPane.ERROR_MESSAGE);
                }

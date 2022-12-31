@@ -24,9 +24,11 @@ public class LoginClass {
 // ...
 
 public boolean login(String username, String password) {
+  Connection conn = null;
+  PreparedStatement stmt = null;
   try {
     // Koneksi ke database
-    Connection conn = Config.getKoneksi();
+    conn = Config.getKoneksi();
 
     //enkripsi
     MessageDigest md = MessageDigest.getInstance("SHA-1");
@@ -37,7 +39,7 @@ public boolean login(String username, String password) {
     String enkripsi = new BigInteger(1, hash).toString(16);
     
     String sql = "SELECT * FROM users WHERE username = ? AND password = ?";
-    PreparedStatement stmt = conn.prepareStatement(sql);
+    stmt = conn.prepareStatement(sql);
 
     stmt.setString(1, username);
     stmt.setString(2, enkripsi);
@@ -48,9 +50,21 @@ public boolean login(String username, String password) {
   } catch (NoSuchAlgorithmException | SQLException e) {
     System.out.println(e.getMessage());
     return false;
-  }
+  } finally {
+        if (stmt != null) {
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+            // menangani kesalahan jika terjadi
+            }   
+        }
+        if (conn != null) {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+            // menangani kesalahan jika terjadi
+            }
+        }
+    }
 }
-
-  
-
 }

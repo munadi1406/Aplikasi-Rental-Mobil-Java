@@ -31,7 +31,7 @@ public class Config {
                       conn = (Connection) DriverManager.getConnection(host, user, pass);
                       System.out.println("Koneksi Berhasil");
                }catch (SQLException err){
-                       JOptionPane.showMessageDialog(null,"Maaf Terjadi Kesalahan Pada Bagian: \n["+err.toString()+"]");
+                       JOptionPane.showMessageDialog(null,"Koneksi Gagal","Eroor",JOptionPane.ERROR_MESSAGE);
                }
                return conn;
       }

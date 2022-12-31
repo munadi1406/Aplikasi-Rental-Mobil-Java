@@ -14,7 +14,7 @@ import javax.swing.JFrame;
  * @author Asus
  */
 public class layout {
-    public static void layout(JFrame form) {
+    public static void Layout(JFrame form) {
     form.setLocationRelativeTo(null);
   }
 }

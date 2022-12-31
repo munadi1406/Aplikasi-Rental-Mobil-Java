@@ -1,21 +1,14 @@
 
 package Mobil;
-
-import src.MainRental;
-import config.layout;
-
+//import config.layout;
 
 public class Mobil extends javax.swing.JFrame {
-//private DefaultTableModel model;
-    /**
-     * Creates new form Mobil
-     */
 
-    MainRental mainRental = new MainRental();
+    MobilClass mobil = new MobilClass();
     public Mobil() {
         initComponents();
-        layout.layout(this);
-        mainRental.clearList();
+//        layout.Center(this);
+//        mobil.clearList();
     }
     
 

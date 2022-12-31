@@ -18,7 +18,7 @@ public class Home extends javax.swing.JFrame {
      */
     public Home() {
         initComponents();
-        layout.layout(this);
+        layout.Layout(this);
         
     }
 

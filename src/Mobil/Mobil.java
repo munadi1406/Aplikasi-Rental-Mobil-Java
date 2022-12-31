@@ -2,13 +2,16 @@
 package Mobil;
 //import config.layout;
 
+import config.layout;
+
+
 public class Mobil extends javax.swing.JFrame {
 
     MobilClass mobil = new MobilClass();
     public Mobil() {
         initComponents();
-//        layout.Center(this);
-//        mobil.clearList();
+        layout.Layout(this);
+        mobil.clearList();
     }
     
 

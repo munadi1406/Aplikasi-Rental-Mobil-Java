@@ -25,7 +25,7 @@ public class Login extends javax.swing.JFrame {
         initComponents();
         
         // untuk mengatur agar posisi form di tengah, /config/layout
-        layout.layout(this);
+        layout.Layout(this);
     }
 
     /**

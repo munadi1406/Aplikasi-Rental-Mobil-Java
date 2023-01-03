@@ -4,12 +4,16 @@
  * and open the template in the editor.
  */
 package Home;
+
 import config.layout;
 import Mobil.Mobil;
 import Pelanggan.Pelanggan;
 import Users.Users;
 import Sewa.Sewa;
 import Pendapatan.Pendapatan;
+import Login.LoginClass;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Asus
@@ -19,10 +23,18 @@ public class Home extends javax.swing.JFrame {
     /**
      * Creates new form Home
      */
+    LoginClass login = new LoginClass();
+
     public Home() {
         initComponents();
         layout.Layout(this);
-        
+        String role = login.getRole();
+        if (role.equals("user")) {
+            jUser.setEnabled(false);
+        }else if(role.equals("admin")){
+            jUser.setEnabled(true);
+        }
+
     }
 
     /**
@@ -34,7 +46,7 @@ public class Home extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton46 = new javax.swing.JButton();
+        jUser = new javax.swing.JButton();
         jButton47 = new javax.swing.JButton();
         jButton48 = new javax.swing.JButton();
         jButton49 = new javax.swing.JButton();
@@ -51,17 +63,17 @@ public class Home extends javax.swing.JFrame {
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jButton46.setBackground(new java.awt.Color(255, 255, 255));
-        jButton46.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jButton46.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/users-solid_1.jpg"))); // NOI18N
-        jButton46.setText("USER");
-        jButton46.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(153, 153, 255), 2, true));
-        jButton46.addActionListener(new java.awt.event.ActionListener() {
+        jUser.setBackground(new java.awt.Color(255, 255, 255));
+        jUser.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jUser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/users-solid_1.jpg"))); // NOI18N
+        jUser.setText("USER");
+        jUser.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(153, 153, 255), 2, true));
+        jUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton46ActionPerformed(evt);
+                jUserActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton46, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 240, 190, 150));
+        getContentPane().add(jUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 240, 190, 150));
 
         jButton47.setBackground(new java.awt.Color(255, 255, 255));
         jButton47.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -182,11 +194,11 @@ public class Home extends javax.swing.JFrame {
         sewa.setVisible(true);
     }//GEN-LAST:event_jButton47ActionPerformed
 
-    private void jButton46ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton46ActionPerformed
+    private void jUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jUserActionPerformed
         // TODO add your handling code here:
         Users users = new Users();
         users.setVisible(true);
-    }//GEN-LAST:event_jButton46ActionPerformed
+    }//GEN-LAST:event_jUserActionPerformed
 
     private void jButton49ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton49ActionPerformed
         // TODO add your handling code here:
@@ -243,7 +255,6 @@ public class Home extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton46;
     private javax.swing.JButton jButton47;
     private javax.swing.JButton jButton48;
     private javax.swing.JButton jButton49;
@@ -252,5 +263,6 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel17;
+    private javax.swing.JButton jUser;
     // End of variables declaration//GEN-END:variables
 }

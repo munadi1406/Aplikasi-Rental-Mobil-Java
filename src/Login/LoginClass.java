@@ -22,23 +22,23 @@ public class LoginClass {
 
 
 // ...
-
+ private static String role;
 public boolean login(String username, String password) {
   Connection conn = null;
   PreparedStatement stmt = null;
+ 
+  
   try {
     // Koneksi ke database
     conn = Config.getKoneksi();
 
-    //enkripsi
+    // enkripsi password
     MessageDigest md = MessageDigest.getInstance("SHA-1");
     md.update(password.getBytes());
     byte[] hash = md.digest();
-
-    //mengubah binner menjadi string (hasil enkripsi)
     String enkripsi = new BigInteger(1, hash).toString(16);
     
-    String sql = "SELECT * FROM users WHERE username = ? AND password = ?";
+    String sql = "SELECT *, role FROM users WHERE username = ? AND password = ?";
     stmt = conn.prepareStatement(sql);
 
     stmt.setString(1, username);
@@ -46,7 +46,14 @@ public boolean login(String username, String password) {
     
     ResultSet res = stmt.executeQuery();
 
-    return res.next();
+    if (res.next()) {
+      role = res.getString("role");
+      // simpan role dalam variabel atau lakukan tindakan lain dengan role tersebut
+//        System.out.println(role);
+      return true;
+    } else {
+      return false;
+    }
   } catch (NoSuchAlgorithmException | SQLException e) {
     System.out.println(e.getMessage());
     return false;
@@ -67,4 +74,9 @@ public boolean login(String username, String password) {
         }
     }
 }
+
+public static String getRole() {
+    return role;
+  }
+
 }

@@ -9,9 +9,7 @@ import Home.Home;
 import config.layout;
 import javax.swing.JOptionPane;
 
-
 //import src.MainRental;
-
 /**
  *
  * @author Asus
@@ -23,7 +21,7 @@ public class Login extends javax.swing.JFrame {
      */
     public Login() {
         initComponents();
-        
+
         // untuk mengatur agar posisi form di tengah, /config/layout
         layout.Layout(this);
     }
@@ -94,25 +92,27 @@ public class Login extends javax.swing.JFrame {
         // TODO add your handling code here:
         String username = TUsername.getText();
         String password = TPassword.getText();
-        
-        if (username.equals("")){
-            JOptionPane.showMessageDialog(null, "Username Masih Kosong","Information",JOptionPane.INFORMATION_MESSAGE);
-        } else if (password.equals("")){
-            JOptionPane.showMessageDialog(null, "password masih kosong","Information",JOptionPane.INFORMATION_MESSAGE);
-        }else{
+
+        if (username.equals("")) {
+            JOptionPane.showMessageDialog(null, "Username Masih Kosong", "Information", JOptionPane.INFORMATION_MESSAGE);
+        } else if (password.equals("")) {
+            JOptionPane.showMessageDialog(null, "password masih kosong", "Information", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            String[] role = new String[1];
             LoginClass loginClass = new LoginClass();
-            boolean isValid = loginClass.login(username, password);
-                if (isValid) {
-                    Home homeForm = new Home();
-                    homeForm.setVisible(true);
-                    dispose();
-                } else {
-                    JOptionPane.showMessageDialog(null, "Username atau password salah!", "Error", JOptionPane.ERROR_MESSAGE);
-                    TUsername.setText("");
-                    TPassword.setText("");
-                    TUsername.requestFocus();
-                }
+            boolean loginSuccess = loginClass.login(username, password);
+            if (loginSuccess) {
+                Home home = new Home();
+                home.setVisible(true);
+                dispose();
+            } else {
+                JOptionPane.showMessageDialog(null, "Username atau password salah!", "Error", JOptionPane.ERROR_MESSAGE);
+                TUsername.setText("");
+                TPassword.setText("");
+                TUsername.requestFocus();
+            }
         }
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -142,8 +142,6 @@ public class Login extends javax.swing.JFrame {
         }
         //</editor-fold>
 
-        
-        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

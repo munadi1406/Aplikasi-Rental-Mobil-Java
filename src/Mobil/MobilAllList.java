@@ -6,12 +6,20 @@
 package Mobil;
 
 import config.layout;
-import java.awt.event.KeyAdapter;
+import config.Config;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -24,6 +32,7 @@ public class MobilAllList extends javax.swing.JFrame {
      */
     MobilClass mobil = new MobilClass();
     private final String val = "All";
+    private int id;
 
     //method clear data
     public void clear() {
@@ -33,12 +42,15 @@ public class MobilAllList extends javax.swing.JFrame {
         TWarna.setText(null);
         TStok.setText(null);
         THargaSewaPerH.setText(null);
+
     }
 
     public MobilAllList() {
         initComponents();
         layout.Layout(this);
         mobil.listMobil();
+        jEdit.setEnabled(false);
+        jHapus.setEnabled(false);
     }
 
     /**
@@ -54,7 +66,7 @@ public class MobilAllList extends javax.swing.JFrame {
         tblMobil = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         jTextField6 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        jSimpan = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -70,9 +82,14 @@ public class MobilAllList extends javax.swing.JFrame {
         TWarna = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
+        jEdit = new javax.swing.JButton();
+        jHapus = new javax.swing.JButton();
+        jLabel10 = new javax.swing.JLabel();
+        jJumlahMobil = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -87,6 +104,11 @@ public class MobilAllList extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblMobil.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblMobilMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblMobil);
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 780, 140));
@@ -96,19 +118,19 @@ public class MobilAllList extends javax.swing.JFrame {
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
 
         jTextField6.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTextField6KeyPressed(evt);
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField6KeyTyped(evt);
             }
         });
         getContentPane().add(jTextField6, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 30, 190, -1));
 
-        jButton1.setText("Simpan");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jSimpan.setText("Simpan");
+        jSimpan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jSimpanActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 220, -1, -1));
+        getContentPane().add(jSimpan, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 220, -1, -1));
 
         jPanel1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 5, true));
         jPanel1.setOpaque(false);
@@ -131,8 +153,6 @@ public class MobilAllList extends javax.swing.JFrame {
 
         jLabel6.setText("Harga Sewa Perhari");
         jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 230, 170, -1));
-
-        TNomorPlat.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jPanel1.add(TNomorPlat, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 30, 420, -1));
         jPanel1.add(TMerk, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 70, 420, -1));
 
@@ -149,8 +169,6 @@ public class MobilAllList extends javax.swing.JFrame {
             }
         });
         jPanel1.add(TStok, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 200, 420, -1));
-
-        DDate.setEnabled(false);
         jPanel1.add(DDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 120, 420, -1));
         jPanel1.add(TWarna, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 160, 420, -1));
 
@@ -165,7 +183,37 @@ public class MobilAllList extends javax.swing.JFrame {
         getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 260, -1, -1));
 
         jLabel9.setText("Cari Berdasarkan Merk");
-        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 30, -1, 20));
+        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 30, 130, 20));
+
+        jEdit.setText("Edit");
+        jEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jEditActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 300, -1, -1));
+
+        jHapus.setText("Hapus");
+        jHapus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jHapusActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jHapus, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 340, -1, -1));
+
+        jLabel10.setText("JUMLAH MOBIL : ");
+        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 210, -1, -1));
+
+        jJumlahMobil.setText(".....");
+        getContentPane().add(jJumlahMobil, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 210, -1, -1));
+
+        jButton1.setText("Cetak");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 380, -1, -1));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/Landingpage (1).jpg"))); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -10, 800, 520));
@@ -173,8 +221,123 @@ public class MobilAllList extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSimpanActionPerformed
         // TODO add your handling code here:
+        String nomorPlat = TNomorPlat.getText();
+        String merk = TMerk.getText();
+
+        Date tanggal = DDate.getDate();
+        java.sql.Date tanggalSql = null;
+        if (tanggal != null) {
+            long time = tanggal.getTime();
+            tanggalSql = new java.sql.Date(time);
+        }
+
+        String warna = TWarna.getText();
+        String hSewa = THargaSewaPerH.getText();
+        String stok = TStok.getText();
+        int stokInt = 0;
+
+        if (nomorPlat == null || nomorPlat.trim().equals("")) {
+            JOptionPane.showMessageDialog(null, "Nomor Plat Belum Di isi");
+        } else if (merk == null || merk.trim().equals("")) {
+            JOptionPane.showMessageDialog(null, "Merk Belum Di isi");
+        } else if (tanggal == null) {
+            JOptionPane.showMessageDialog(null, "Tanggal Belum Di Piih");
+        } else if (warna == null || warna.trim().equals("")) {
+            JOptionPane.showMessageDialog(null, "Warna Belum Di isi");
+        } else if (stok == null || stok.trim().equals("")) {
+            JOptionPane.showMessageDialog(null, "Stok Belum Di isi");
+        } else if (hSewa == null || hSewa.trim().equals("")) {
+            JOptionPane.showMessageDialog(null, "Harga Sewa Belum Di isi");
+        } else {
+            try {
+                stokInt = Integer.parseInt(stok);
+                mobil.insertData(nomorPlat, merk, tanggalSql, warna, stokInt, hSewa);
+                clear();
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Stok Harus Berupa Angka");
+            }
+        }
+    }//GEN-LAST:event_jSimpanActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        clear();
+        jSimpan.setEnabled(true);
+        jEdit.setEnabled(false);
+        jHapus.setEnabled(false);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void TStokKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TStokKeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        if (!((Character.isDigit(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE)))) {
+            getToolkit().beep();
+            JOptionPane.showMessageDialog(null, "Masukkan Hanya Angka ");
+            evt.consume();
+        }
+    }//GEN-LAST:event_TStokKeyTyped
+
+    private void THargaSewaPerHKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_THargaSewaPerHKeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        if (!((Character.isDigit(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE)))) {
+            getToolkit().beep();
+            JOptionPane.showMessageDialog(null, "Masukkan Hanya Angka ");
+            evt.consume();
+        }
+    }//GEN-LAST:event_THargaSewaPerHKeyTyped
+
+    private void jTextField6KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField6KeyTyped
+        // TODO add your handling code here:
+        String text = jTextField6.getText();
+        mobil.search(text);
+    }//GEN-LAST:event_jTextField6KeyTyped
+
+    private void tblMobilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMobilMouseClicked
+        // TODO add your handling code here:
+        jSimpan.setEnabled(false);
+        jEdit.setEnabled(true);
+        jHapus.setEnabled(true);
+        try {
+            int row = tblMobil.rowAtPoint(evt.getPoint());
+            int col = tblMobil.columnAtPoint(evt.getPoint());
+            if (row >= 0 && col >= 0) {
+                String noPlat = (String) tblMobil.getValueAt(row, 0);
+                String merk = (String) tblMobil.getValueAt(row, 1);
+                try {
+                    java.sql.Date tanggal = (java.sql.Date) tblMobil.getValueAt(row, 2);
+                    String tahunP = tanggal.toString();
+
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                    Date date = sdf.parse(tahunP);
+                    DDate.setDate(date);
+                } catch (ParseException ex) {
+                    JOptionPane.showMessageDialog(null, "Terjadi Error Saat Mengambil Data Tanggal", "error", JOptionPane.ERROR_MESSAGE);
+                }
+                String warna = (String) tblMobil.getValueAt(row, 3);
+                int stok = (int) tblMobil.getValueAt(row, 4);
+                String hargaPerH = (String) tblMobil.getValueAt(row, 5);
+                id = (int) tblMobil.getModel().getValueAt(row, 6);
+
+//            menampilkan ke textField
+                TNomorPlat.setText(noPlat);
+                TMerk.setText(merk);
+                TWarna.setText(warna);
+                TStok.setText(String.valueOf(stok));
+                THargaSewaPerH.setText(hargaPerH);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Terjadi Error Saat Mengambil Data", "error", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }//GEN-LAST:event_tblMobilMouseClicked
+
+    private void jEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jEditActionPerformed
+        // TODO add your handling code here:
+//        menangkap id berdasarkan baris yang di ambil (id berasal dari variabel global di atas)
+        int getId = id;
         String nomorPlat = TNomorPlat.getText();
         String merk = TMerk.getText();
 
@@ -187,39 +350,36 @@ public class MobilAllList extends javax.swing.JFrame {
         String stok = TStok.getText();
         int stokInt = Integer.parseInt(stok);
 
-        mobil.insertData(nomorPlat, merk, tanggalSql, warna, stokInt, HSewa);
+        mobil.editData(nomorPlat, merk, tanggalSql, warna, stokInt, HSewa, getId);
         clear();
+        jEdit.setEnabled(false);
+        jSimpan.setEnabled(true);
+        jEdit.setEnabled(false);
+    }//GEN-LAST:event_jEditActionPerformed
+
+    private void jHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jHapusActionPerformed
+        // TODO add your handling code here:
+        int getId = id;
+        mobil.hapusData(id);
+    }//GEN-LAST:event_jHapusActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        Config config = new Config();
+        File namafile = new File("src/Mobil/MobilReport.jasper");
+        JasperPrint jp = null;
+        try {
+            jp = JasperFillManager.fillReport(namafile.getPath(), null, config.getKoneksi());
+        } catch (JRException ex) {
+            Logger.getLogger(MobilAllList.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        JasperViewer.viewReport(jp, false);
+        try {
+            JasperExportManager.exportReportToPdfFile(jp, "output.pdf");
+        } catch (JRException ex) {
+            ex.printStackTrace();
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        clear();
-    }//GEN-LAST:event_jButton2ActionPerformed
-    private DefaultTableModel model;
-    private void jTextField6KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField6KeyPressed
-        // TODO add your handling code here
-
-    }//GEN-LAST:event_jTextField6KeyPressed
-
-    private void TStokKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TStokKeyTyped
-        // TODO add your handling code here:
-        char c = evt.getKeyChar();
-        if(! ((Character.isDigit(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE)))){
-            getToolkit().beep();
-            JOptionPane.showMessageDialog(null, "Masukkan Hanya Angka ");
-            evt.consume();
-        }
-    }//GEN-LAST:event_TStokKeyTyped
-
-    private void THargaSewaPerHKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_THargaSewaPerHKeyTyped
-        // TODO add your handling code here:
-        char c = evt.getKeyChar();
-        if(! ((Character.isDigit(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE)))){
-            getToolkit().beep();
-            JOptionPane.showMessageDialog(null, "Masukkan Hanya Angka ");
-            evt.consume();
-        }
-    }//GEN-LAST:event_THargaSewaPerHKeyTyped
 
     /**
      * @param args the command line arguments
@@ -230,6 +390,7 @@ public class MobilAllList extends javax.swing.JFrame {
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
+
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -265,7 +426,11 @@ public class MobilAllList extends javax.swing.JFrame {
     private javax.swing.JTextField TWarna;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jEdit;
+    private javax.swing.JButton jHapus;
+    static javax.swing.JLabel jJumlahMobil;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -276,6 +441,7 @@ public class MobilAllList extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton jSimpan;
     private javax.swing.JTextField jTextField6;
     public static javax.swing.JTable tblMobil;
     // End of variables declaration//GEN-END:variables

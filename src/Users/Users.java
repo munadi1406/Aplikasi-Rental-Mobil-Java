@@ -16,6 +16,15 @@ public class Users extends javax.swing.JFrame {
     /**
      * Creates new form Users
      */
+//    method untuk clear value dari textfield
+    public final void clear() {
+        jUsername.setText(null);
+        jPasswrod.setText(null);
+        jPanelGanti.setVisible(false);
+        jHapus.setEnabled(false);
+        jEdit.setEnabled(false);
+        jTambah.setEnabled(true);
+    }
     UsersClass users = new UsersClass();
     private int id;
 
@@ -23,9 +32,7 @@ public class Users extends javax.swing.JFrame {
         initComponents();
         users.listUsers();
         layout.Layout(this);
-        jPanelGanti.setVisible(false);
-        jEdit.setEnabled(false);
-        jHapus.setEnabled(false);
+        clear();
     }
 
     /**
@@ -64,6 +71,7 @@ public class Users extends javax.swing.JFrame {
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jTableUsers.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jTableUsers.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -82,12 +90,16 @@ public class Users extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTableUsers);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 60, 740, 210));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 60, 740, 160));
 
         jLabel6.setText("Data User");
         getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, -1, -1));
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Tambah Data User"));
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setLayout(new java.awt.GridLayout());
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 255), 4, true), "Tambah Data User"));
+        jPanel1.setOpaque(false);
 
         jLabel1.setText("Username");
 
@@ -125,6 +137,11 @@ public class Users extends javax.swing.JFrame {
         });
 
         jButton4.setText("Clear");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -151,7 +168,7 @@ public class Users extends javax.swing.JFrame {
                     .addComponent(jButton4)
                     .addComponent(jTambah)
                     .addComponent(jEdit))
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addContainerGap(11, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -173,10 +190,13 @@ public class Users extends javax.swing.JFrame {
                     .addComponent(jHapus))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton4)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
 
-        jPanelGanti.setBorder(javax.swing.BorderFactory.createTitledBorder("Ganti Password"));
+        jPanel2.add(jPanel1);
+
+        jPanelGanti.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 255), 4, true), "Ganti Password"));
+        jPanelGanti.setOpaque(false);
 
         jLabel4.setText("Password Baru");
 
@@ -198,7 +218,7 @@ public class Users extends javax.swing.JFrame {
                 .addGroup(jPanelGantiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
                     .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 100, Short.MAX_VALUE)
                 .addGroup(jPanelGantiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(konfirmasiPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(passwordBaru, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -221,31 +241,12 @@ public class Users extends javax.swing.JFrame {
                     .addComponent(jLabel5))
                 .addGap(38, 38, 38)
                 .addComponent(jButton5)
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanelGanti, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(17, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanelGanti, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addContainerGap())
-        );
+        jPanel2.add(jPanelGanti);
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 280, 740, -1));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 250, 740, 230));
 
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/Landingpage (1).jpg"))); // NOI18N
         getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 810, 510));
@@ -269,6 +270,7 @@ public class Users extends javax.swing.JFrame {
         } else {
             try {
                 users.insertData(username, password, role);
+                clear();
             } catch (NoSuchAlgorithmException ex) {
                 Logger.getLogger(Users.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -310,11 +312,11 @@ public class Users extends javax.swing.JFrame {
         int getId = id;
         String username = jUsername.getText();
         String role = (String) jROle.getSelectedItem();
-        users.editData(username, role, getId);
-        jPanelGanti.setVisible(false);
-        jHapus.setEnabled(false);
-        jEdit.setEnabled(false);
-        jTambah.setEnabled(true);
+        try {
+            users.editData(username, role, getId);
+            clear();
+        } catch (Exception e) {
+        }
     }//GEN-LAST:event_jEditActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -328,11 +330,11 @@ public class Users extends javax.swing.JFrame {
         } else if (password2.equals("")) {
             JOptionPane.showMessageDialog(null, "Konfirmasi Password Baru Belum Di Isi");
         } else {
-            users.ubahPassword(password1, password2, getId);
-            jPanelGanti.setVisible(false);
-            jHapus.setEnabled(false);
-            jEdit.setEnabled(false);
-            jTambah.setEnabled(true);
+            try {
+                users.ubahPassword(password1, password2, getId);
+                clear();
+            } catch (Exception e) {
+            }
         }
 
 
@@ -341,8 +343,18 @@ public class Users extends javax.swing.JFrame {
     private void jHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jHapusActionPerformed
         // TODO add your handling code here:
         int getId = id;
-        users.hapusData(getId);
+        try {
+            users.hapusData(getId);
+            clear();
+        } catch (Exception e) {
+        }
+
     }//GEN-LAST:event_jHapusActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        clear();
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments

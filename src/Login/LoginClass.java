@@ -20,63 +20,68 @@ import config.Config;
  */
 public class LoginClass {
 
-
 // ...
- private static String role;
-public boolean login(String username, String password) {
-  Connection conn = null;
-  PreparedStatement stmt = null;
- 
-  
-  try {
-    // Koneksi ke database
-    conn = Config.getKoneksi();
+    private static String role;
+    private static int id_users;
 
-    // enkripsi password
-    MessageDigest md = MessageDigest.getInstance("SHA-1");
-    md.update(password.getBytes());
-    byte[] hash = md.digest();
-    String enkripsi = new BigInteger(1, hash).toString(16);
-    
-    String sql = "SELECT *, role FROM users WHERE username = ? AND password = ?";
-    stmt = conn.prepareStatement(sql);
+    public boolean login(String username, String password) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
 
-    stmt.setString(1, username);
-    stmt.setString(2, enkripsi);
-    
-    ResultSet res = stmt.executeQuery();
+        try {
+            // Koneksi ke database
+            conn = Config.getKoneksi();
 
-    if (res.next()) {
-      role = res.getString("role");
-      // simpan role dalam variabel atau lakukan tindakan lain dengan role tersebut
+            // enkripsi password
+            MessageDigest md = MessageDigest.getInstance("SHA-1");
+            md.update(password.getBytes());
+            byte[] hash = md.digest();
+            String enkripsi = new BigInteger(1, hash).toString(16);
+
+            String sql = "SELECT *, role FROM users WHERE username = ? AND password = ?";
+            stmt = conn.prepareStatement(sql);
+
+            stmt.setString(1, username);
+            stmt.setString(2, enkripsi);
+
+            ResultSet res = stmt.executeQuery();
+
+            if (res.next()) {
+                id_users = res.getInt("id_users");
+                role = res.getString("role");
+                // simpan role dalam variabel atau lakukan tindakan lain dengan role tersebut
 //        System.out.println(role);
-      return true;
-    } else {
-      return false;
-    }
-  } catch (NoSuchAlgorithmException | SQLException e) {
-    System.out.println(e.getMessage());
-    return false;
-  } finally {
-        if (stmt != null) {
-            try {
-                stmt.close();
-            } catch (SQLException e) {
-            // menangani kesalahan jika terjadi
-            }   
-        }
-        if (conn != null) {
-            try {
-                conn.close();
-            } catch (SQLException e) {
-            // menangani kesalahan jika terjadi
+                return true;
+            } else {
+                return false;
+            }
+        } catch (NoSuchAlgorithmException | SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
+        } finally {
+            if (stmt != null) {
+                try {
+                    stmt.close();
+                } catch (SQLException e) {
+                    // menangani kesalahan jika terjadi
+                }
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    // menangani kesalahan jika terjadi
+                }
             }
         }
     }
-}
 
-public static String getRole() {
-    return role;
-  }
+    public static String getRole() {
+        return role;
+    }
+
+    public static int getIdUsers() {
+        return id_users;
+    }
 
 }

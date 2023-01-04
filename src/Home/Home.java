@@ -6,13 +6,12 @@
 package Home;
 
 import config.layout;
-import Mobil.Mobil;
 import Pelanggan.Pelanggan;
 import Users.Users;
-import Sewa.Sewa;
 import Pendapatan.Pendapatan;
 import Login.LoginClass;
-import javax.swing.JOptionPane;
+import Transaksi.Transaksi;
+import Mobil.MobilAllList;
 
 /**
  *
@@ -28,7 +27,7 @@ public class Home extends javax.swing.JFrame {
     public Home() {
         initComponents();
         layout.Layout(this);
-        String role = login.getRole();
+        String role = LoginClass.getRole();
         if (role.equals("user")) {
             jUser.setEnabled(false);
         }else if(role.equals("admin")){
@@ -78,7 +77,7 @@ public class Home extends javax.swing.JFrame {
         jButton47.setBackground(new java.awt.Color(255, 255, 255));
         jButton47.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButton47.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/rectangle-list-solid.jpg"))); // NOI18N
-        jButton47.setText("SEWA");
+        jButton47.setText("TRANSASKI");
         jButton47.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(153, 153, 255), 2, true));
         jButton47.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -190,8 +189,8 @@ public class Home extends javax.swing.JFrame {
 
     private void jButton47ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton47ActionPerformed
         // TODO add your handling code here:
-        Sewa sewa = new Sewa();
-        sewa.setVisible(true);
+        Transaksi transaksi = new Transaksi();
+        transaksi.setVisible(true);
     }//GEN-LAST:event_jButton47ActionPerformed
 
     private void jUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jUserActionPerformed
@@ -202,7 +201,7 @@ public class Home extends javax.swing.JFrame {
 
     private void jButton49ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton49ActionPerformed
         // TODO add your handling code here:
-        Mobil mobil = new Mobil();
+        MobilAllList mobil = new MobilAllList();
         mobil.setVisible(true);
     }//GEN-LAST:event_jButton49ActionPerformed
 

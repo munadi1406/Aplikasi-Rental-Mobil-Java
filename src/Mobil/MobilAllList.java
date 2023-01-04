@@ -42,6 +42,9 @@ public class MobilAllList extends javax.swing.JFrame {
         TWarna.setText(null);
         TStok.setText(null);
         THargaSewaPerH.setText(null);
+        jSimpan.setEnabled(true);
+        jEdit.setEnabled(false);
+        jHapus.setEnabled(false);
 
     }
 
@@ -51,6 +54,7 @@ public class MobilAllList extends javax.swing.JFrame {
         mobil.listMobil();
         jEdit.setEnabled(false);
         jHapus.setEnabled(false);
+
     }
 
     /**
@@ -264,9 +268,6 @@ public class MobilAllList extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         clear();
-        jSimpan.setEnabled(true);
-        jEdit.setEnabled(false);
-        jHapus.setEnabled(false);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void TStokKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TStokKeyTyped
@@ -350,17 +351,25 @@ public class MobilAllList extends javax.swing.JFrame {
         String stok = TStok.getText();
         int stokInt = Integer.parseInt(stok);
 
-        mobil.editData(nomorPlat, merk, tanggalSql, warna, stokInt, HSewa, getId);
-        clear();
-        jEdit.setEnabled(false);
-        jSimpan.setEnabled(true);
-        jEdit.setEnabled(false);
+        try {
+            mobil.editData(nomorPlat, merk, tanggalSql, warna, stokInt, HSewa, getId);
+            clear();
+        } catch (Exception e) {
+            
+        }
+
     }//GEN-LAST:event_jEditActionPerformed
 
     private void jHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jHapusActionPerformed
         // TODO add your handling code here:
         int getId = id;
-        mobil.hapusData(id);
+        try {
+            mobil.hapusData(getId);
+            clear();
+        } catch (Exception e) {
+            
+        }
+        
     }//GEN-LAST:event_jHapusActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

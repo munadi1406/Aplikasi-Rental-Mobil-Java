@@ -5,17 +5,30 @@
  */
 package Pendapatan;
 
-/**
- *
- * @author Asus
- */
+import config.Config;
+
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.export.JRPdfExporter;
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
+import net.sf.jasperreports.view.JasperViewer;
+
 public class Pendapatan extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Pendapatan
-     */
+    PendapatanClass pendapatan = new PendapatanClass();
+
     public Pendapatan() {
         initComponents();
+        pendapatan.listPendapatan();
+
     }
 
     /**
@@ -27,31 +40,130 @@ public class Pendapatan extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTblPendapatan = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
+        jDariTanggal = new com.toedter.calendar.JDateChooser();
+        jSampaiTanggal = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setName("fromPendapatan"); // NOI18N
 
-        jLabel1.setText("ini halaman pendapatan");
+        jLabel2.setText("jLabel2");
+
+        jTblPendapatan.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTblPendapatan);
+
+        jButton1.setText("Cetak");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jSampaiTanggal.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                jSampaiTanggalPropertyChange(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(164, 164, 164)
-                .addComponent(jLabel1)
-                .addContainerGap(122, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(35, 35, 35)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 735, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(72, 72, 72)
+                        .addComponent(jDariTanggal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jSampaiTanggal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1)))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(126, 126, 126)
-                .addComponent(jLabel1)
-                .addContainerGap(160, Short.MAX_VALUE))
+                .addGap(19, 19, 19)
+                .addComponent(jLabel2)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 81, Short.MAX_VALUE)
+                                .addComponent(jButton1)
+                                .addGap(74, 74, 74))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(63, 63, 63)
+                                .addComponent(jSampaiTanggal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jDariTanggal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(95, 95, 95))))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        Config config = new Config();
+        File namafile = new File("src/Pendapatan/reportPendapatan.jasper");
+
+        java.util.Date dariTanggal = jDariTanggal.getDate();
+        java.sql.Date dariTgl = new java.sql.Date(dariTanggal.getTime());
+
+        java.util.Date sampaiTanggal = jSampaiTanggal.getDate();
+        java.sql.Date sampaiTgl = new java.sql.Date(sampaiTanggal.getTime());
+
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("tgl1", dariTgl);
+        parameters.put("tgl2", sampaiTgl);
+
+        JasperPrint jp = null;
+        try {
+            jp = JasperFillManager.fillReport(namafile.getPath(), parameters, config.getKoneksi());
+        } catch (JRException ex) {
+            Logger.getLogger(Pendapatan.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        JasperViewer.viewReport(jp, false);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jSampaiTanggalPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jSampaiTanggalPropertyChange
+        // TODO add your handling code here:
+        try {
+            if (jDariTanggal.getDate() != null || jSampaiTanggal.getDate() != null) {
+                java.util.Date dariTanggal = jDariTanggal.getDate();
+                java.sql.Date dariTgl = new java.sql.Date(dariTanggal.getTime());
+
+                java.util.Date sampaiTanggal = jSampaiTanggal.getDate();
+                java.sql.Date sampaiTgl = new java.sql.Date(sampaiTanggal.getTime());
+
+                pendapatan.listPendapatanFilter(dariTgl, sampaiTgl);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_jSampaiTanggalPropertyChange
 
     /**
      * @param args the command line arguments
@@ -89,6 +201,11 @@ public class Pendapatan extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton jButton1;
+    private com.toedter.calendar.JDateChooser jDariTanggal;
+    private javax.swing.JLabel jLabel2;
+    private com.toedter.calendar.JDateChooser jSampaiTanggal;
+    private javax.swing.JScrollPane jScrollPane1;
+    public static javax.swing.JTable jTblPendapatan;
     // End of variables declaration//GEN-END:variables
 }

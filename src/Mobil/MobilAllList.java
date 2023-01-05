@@ -70,7 +70,6 @@ public class MobilAllList extends javax.swing.JFrame {
         tblMobil = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         jTextField6 = new javax.swing.JTextField();
-        jSimpan = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -84,12 +83,14 @@ public class MobilAllList extends javax.swing.JFrame {
         TStok = new javax.swing.JTextField();
         DDate = new com.toedter.calendar.JDateChooser();
         TWarna = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
-        jEdit = new javax.swing.JButton();
-        jHapus = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
         jJumlahMobil = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jSimpan = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jEdit = new javax.swing.JButton();
+        jHapus = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
@@ -127,14 +128,6 @@ public class MobilAllList extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jTextField6, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 30, 190, -1));
-
-        jSimpan.setText("Simpan");
-        jSimpan.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jSimpanActionPerformed(evt);
-            }
-        });
-        getContentPane().add(jSimpan, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 220, -1, -1));
 
         jPanel1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 5, true));
         jPanel1.setOpaque(false);
@@ -178,32 +171,8 @@ public class MobilAllList extends javax.swing.JFrame {
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 210, 530, 290));
 
-        jButton2.setText("Clear");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 260, -1, -1));
-
         jLabel9.setText("Cari Berdasarkan Merk");
         getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 30, 130, 20));
-
-        jEdit.setText("Edit");
-        jEdit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jEditActionPerformed(evt);
-            }
-        });
-        getContentPane().add(jEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 300, -1, -1));
-
-        jHapus.setText("Hapus");
-        jHapus.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jHapusActionPerformed(evt);
-            }
-        });
-        getContentPane().add(jHapus, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 340, -1, -1));
 
         jLabel10.setText("JUMLAH MOBIL : ");
         getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 210, -1, -1));
@@ -211,16 +180,83 @@ public class MobilAllList extends javax.swing.JFrame {
         jJumlahMobil.setText(".....");
         getContentPane().add(jJumlahMobil, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 210, -1, -1));
 
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+
+        jSimpan.setText("Simpan");
+        jSimpan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jSimpanActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Clear");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jEdit.setText("Edit");
+        jEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jEditActionPerformed(evt);
+            }
+        });
+
+        jHapus.setText("Hapus");
+        jHapus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jHapusActionPerformed(evt);
+            }
+        });
+
         jButton1.setText("Cetak");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 380, -1, -1));
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jEdit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jHapus))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jSimpan)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addGap(47, 47, 47)))
+                .addContainerGap(28, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jSimpan)
+                    .addComponent(jButton2))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jEdit)
+                    .addComponent(jHapus))
+                .addGap(18, 18, 18)
+                .addComponent(jButton1)
+                .addContainerGap(24, Short.MAX_VALUE))
+        );
+
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 300, 200, 140));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/Landingpage (1).jpg"))); // NOI18N
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -10, 800, 520));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -10, 800, 530));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -449,6 +485,7 @@ public class MobilAllList extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton jSimpan;
     private javax.swing.JTextField jTextField6;

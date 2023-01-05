@@ -6,6 +6,7 @@
 package Pelanggan;
 
 import config.layout;
+import java.awt.event.KeyEvent;
 import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,7 +24,7 @@ public class Pelanggan extends javax.swing.JFrame {
         jNamaPelanggan.setText(null);
         jNoTelepon.setText(null);
         jAlamat.setText(null);
-         jEdit.setEnabled(false);
+        jEdit.setEnabled(false);
         jHapus.setEnabled(false);
         jTambah.setEnabled(true);
     }
@@ -59,8 +60,20 @@ public class Pelanggan extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTablePelanggan = new javax.swing.JTable();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 255), 5, true));
+
+        jNoTelepon.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jNoTeleponKeyTyped(evt);
+            }
+        });
 
         jLabel1.setText("Nama");
 
@@ -101,7 +114,7 @@ public class Pelanggan extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(40, 40, 40)
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
                     .addComponent(jLabel2)
@@ -111,20 +124,20 @@ public class Pelanggan extends javax.swing.JFrame {
                     .addComponent(jNamaPelanggan)
                     .addComponent(jNoTelepon)
                     .addComponent(jAlamat, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTambah)
-                    .addComponent(jEdit)
-                    .addComponent(jHapus)
-                    .addComponent(jButton3))
+                .addGap(40, 40, 40)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jTambah, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jEdit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jHapus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(33, 33, 33)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jNamaPelanggan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1))
@@ -137,16 +150,17 @@ public class Pelanggan extends javax.swing.JFrame {
                             .addComponent(jAlamat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
                         .addComponent(jTambah)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jEdit)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jHapus)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton3)))
-                .addContainerGap(13, Short.MAX_VALUE))
+                        .addComponent(jHapus)))
+                .addGap(18, 18, 18)
+                .addComponent(jButton3)
+                .addContainerGap(16, Short.MAX_VALUE))
         );
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(168, 294, -1, -1));
 
         jTablePelanggan.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -166,28 +180,14 @@ public class Pelanggan extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTablePelanggan);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1)
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(152, 152, 152)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(245, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(78, 78, 78)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(20, Short.MAX_VALUE))
-        );
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 64, 764, 212));
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel4.setText("DATA PELANGGAN");
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 36, -1, -1));
+
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/Landingpage (1).jpg"))); // NOI18N
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 780, 490));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -197,15 +197,20 @@ public class Pelanggan extends javax.swing.JFrame {
         String nama = jNamaPelanggan.getText();
         String noTelepon = jNoTelepon.getText();
         String alamat = jAlamat.getText();
-
-        try {
-            pelanggan.insertData(nama, noTelepon, alamat);
-            clear();
-        } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(Pelanggan.class.getName()).log(Level.SEVERE, null, ex);
+        if (nama.equals("")) {
+            JOptionPane.showMessageDialog(null, "Masukkan Nama Pelanggan", "information", JOptionPane.INFORMATION_MESSAGE);
+        } else if (noTelepon.equals("")) {
+            JOptionPane.showMessageDialog(null, "Masukkan No Telepon Pelanggan", "information", JOptionPane.INFORMATION_MESSAGE);
+        } else if (alamat.equals("")) {
+            JOptionPane.showMessageDialog(null, "Masukkan Alamat Pelanggan", "information", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            try {
+                pelanggan.insertData(nama, noTelepon, alamat);
+                clear();
+            } catch (NoSuchAlgorithmException ex) {
+                Logger.getLogger(Pelanggan.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-
-
     }//GEN-LAST:event_jTambahActionPerformed
 
     private void jTablePelangganMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTablePelangganMouseClicked
@@ -246,12 +251,10 @@ public class Pelanggan extends javax.swing.JFrame {
         } catch (Exception e) {
 
         }
-
     }//GEN-LAST:event_jEditActionPerformed
 
     private void jHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jHapusActionPerformed
         // TODO add your handling code here:
-
         int getId = id;
         try {
             pelanggan.hapusData(getId);
@@ -259,13 +262,22 @@ public class Pelanggan extends javax.swing.JFrame {
         } catch (Exception e) {
 
         }
-
     }//GEN-LAST:event_jHapusActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         clear();
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jNoTeleponKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jNoTeleponKeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        if (!((Character.isDigit(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE)))) {
+            getToolkit().beep();
+            JOptionPane.showMessageDialog(null, "Masukkan Hanya Angka ");
+            evt.consume();
+        }
+    }//GEN-LAST:event_jNoTeleponKeyTyped
 
     /**
      * @param args the command line arguments
@@ -310,6 +322,8 @@ public class Pelanggan extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JTextField jNamaPelanggan;
     private javax.swing.JTextField jNoTelepon;
     private javax.swing.JPanel jPanel1;

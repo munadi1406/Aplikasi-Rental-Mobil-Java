@@ -3,11 +3,12 @@ package Transaksi;
 
 import Login.LoginClass;
 import config.layout;
+import java.sql.SQLException;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
-import java.util.Date;
+import Mobil.MobilAllList;
 
 import javax.swing.JOptionPane;
 
@@ -20,12 +21,30 @@ public class Transaksi extends javax.swing.JFrame {
     private int id_mobil;
     private int id_pelanggan;
 
+    private void clear(){
+        jMerk.setText(null);
+        jWarna.setText(null);
+        jHargaSewaPerhari.setText(null);
+        jNamaPenyewa.setText(null);
+        jNoTelepon.setText(null);
+        jAlamat.setText(null);
+        jTanggalKembali.setDate(null);
+        jTanggalSewa.setDate(null);
+        jTotalBayar.setText(null);
+        jBayar.setText(null);
+        jKembali.setText(null);
+        jPanelTablePelanggan.setVisible(false);
+        jTanggalSewa.setEnabled(false);
+        jJumlahHari.setText("....");
+        jTanggalKembali.setEnabled(false);
+    }
+    
     public Transaksi() {
         initComponents();
         layout.Layout(this);
         transaksi.listMobilTersedia();
         transaksi.listPelanggan();
-        jPanelTablePelanggan.setVisible(false);
+        clear();
     }
 
     /**
@@ -38,12 +57,25 @@ public class Transaksi extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        jSearchMobil = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblMobilTersedia = new javax.swing.JTable();
         jPanelTablePelanggan = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTablePelanggan = new javax.swing.JTable();
+        jSearchPelanggan = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jTanggalSewa = new com.toedter.calendar.JDateChooser();
+        jTanggalKembali = new com.toedter.calendar.JDateChooser();
+        jTotalBayar = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jBayar = new javax.swing.JTextField();
+        jLabel13 = new javax.swing.JLabel();
+        jKembali = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jMerk = new javax.swing.JTextField();
@@ -57,13 +89,10 @@ public class Transaksi extends javax.swing.JFrame {
         jNoTelepon = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jAlamat = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jTanggalSewa = new com.toedter.calendar.JDateChooser();
-        jTanggalKembali = new com.toedter.calendar.JDateChooser();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jTotalHarga = new javax.swing.JTextField();
         jJumlahHari = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -76,7 +105,13 @@ public class Transaksi extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel2.setText("MOBIL YANG TERSEDIA");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, -1, -1));
-        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 20, 210, -1));
+
+        jSearchMobil.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jSearchMobilKeyTyped(evt);
+            }
+        });
+        getContentPane().add(jSearchMobil, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 20, 160, -1));
 
         tblMobilTersedia.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -100,6 +135,9 @@ public class Transaksi extends javax.swing.JFrame {
 
         getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 790, 110));
 
+        jPanelTablePelanggan.setBackground(new java.awt.Color(255, 255, 255));
+        jPanelTablePelanggan.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 255), 4, true), "Data Pelanggan"));
+
         jTablePelanggan.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -118,74 +156,39 @@ public class Transaksi extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTablePelanggan);
 
+        jSearchPelanggan.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jSearchPelangganKeyTyped(evt);
+            }
+        });
+
+        jLabel10.setText("Cari Nama Pelanggan");
+
         javax.swing.GroupLayout jPanelTablePelangganLayout = new javax.swing.GroupLayout(jPanelTablePelanggan);
         jPanelTablePelanggan.setLayout(jPanelTablePelangganLayout);
         jPanelTablePelangganLayout.setHorizontalGroup(
             jPanelTablePelangganLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelTablePelangganLayout.createSequentialGroup()
-                .addGap(0, 8, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 412, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 412, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelTablePelangganLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSearchPelanggan, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanelTablePelangganLayout.setVerticalGroup(
             jPanelTablePelangganLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelTablePelangganLayout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 24, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelTablePelangganLayout.createSequentialGroup()
+                .addGroup(jPanelTablePelangganLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jSearchPelanggan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        getContentPane().add(jPanelTablePelanggan, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 170, 420, 240));
-
-        jPanel1.setLayout(null);
-
-        jLabel3.setText("Merk");
-        jPanel1.add(jLabel3);
-        jLabel3.setBounds(10, 0, 130, 14);
-
-        jMerk.setEditable(false);
-        jPanel1.add(jMerk);
-        jMerk.setBounds(10, 20, 130, 30);
-
-        jLabel4.setText("Warna");
-        jPanel1.add(jLabel4);
-        jLabel4.setBounds(10, 50, 130, 20);
-
-        jWarna.setEditable(false);
-        jPanel1.add(jWarna);
-        jWarna.setBounds(10, 70, 130, 30);
-
-        jLabel1.setText("Harga Sewa Perhari");
-        jPanel1.add(jLabel1);
-        jLabel1.setBounds(10, 100, 130, 14);
-
-        jHargaSewaPerhari.setEditable(false);
-        jPanel1.add(jHargaSewaPerhari);
-        jHargaSewaPerhari.setBounds(10, 120, 130, 30);
-
-        jLabel5.setText("Nama Penyewa");
-        jPanel1.add(jLabel5);
-        jLabel5.setBounds(10, 150, 130, 14);
-
-        jNamaPenyewa.setEditable(false);
-        jPanel1.add(jNamaPenyewa);
-        jNamaPenyewa.setBounds(10, 170, 130, 30);
-
-        jLabel6.setText("No Telepon");
-        jPanel1.add(jLabel6);
-        jLabel6.setBounds(10, 200, 130, 14);
-
-        jNoTelepon.setEditable(false);
-        jPanel1.add(jNoTelepon);
-        jNoTelepon.setBounds(10, 220, 130, 30);
-
-        jLabel7.setText("Alamat");
-        jPanel1.add(jLabel7);
-        jLabel7.setBounds(10, 250, 130, 20);
-
-        jAlamat.setEditable(false);
-        jPanel1.add(jAlamat);
-        jAlamat.setBounds(10, 270, 130, 30);
-
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, 170, 310));
+        getContentPane().add(jPanelTablePelanggan, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 180, 420, 240));
 
         jButton1.setText("Tambah");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -193,32 +196,177 @@ public class Transaksi extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 420, -1, -1));
-        getContentPane().add(jTanggalSewa, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 200, -1, -1));
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 440, -1, 30));
 
+        jTanggalSewa.setBackground(new java.awt.Color(255, 255, 255));
+        getContentPane().add(jTanggalSewa, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 190, 140, 30));
+
+        jTanggalKembali.setBackground(new java.awt.Color(255, 255, 255));
         jTanggalKembali.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 jTanggalKembaliPropertyChange(evt);
             }
         });
-        getContentPane().add(jTanggalKembali, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 250, -1, -1));
+        getContentPane().add(jTanggalKembali, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 240, 140, 30));
 
-        jLabel8.setText("Tanggal Kembali");
-        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 230, -1, -1));
+        jTotalBayar.setEditable(false);
+        getContentPane().add(jTotalBayar, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 290, 140, 30));
 
-        jLabel9.setText("Tanggal Sewa");
-        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 180, -1, -1));
-        getContentPane().add(jTotalHarga, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 310, 140, -1));
+        jLabel11.setText("Cari Merk Mobil");
+        getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(552, 20, 80, 20));
+
+        jLabel12.setText("Total Bayar");
+        getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 270, -1, 20));
+
+        jBayar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jBayarKeyReleased(evt);
+            }
+        });
+        getContentPane().add(jBayar, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 340, 140, 30));
+
+        jLabel13.setText("Bayar");
+        getContentPane().add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 314, 40, 30));
+
+        jKembali.setEditable(false);
+        getContentPane().add(jKembali, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 390, 140, 30));
+
+        jLabel14.setText("Kembali");
+        getContentPane().add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 370, -1, 20));
+
+        jButton2.setText("Clear");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 440, -1, 30));
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 255), 4, true));
+
+        jLabel3.setText("Merk");
+
+        jMerk.setEditable(false);
+
+        jLabel4.setText("Warna");
+
+        jWarna.setEditable(false);
+
+        jLabel1.setText("Harga Sewa Perhari");
+
+        jHargaSewaPerhari.setEditable(false);
+
+        jLabel5.setText("Nama Penyewa");
+
+        jNamaPenyewa.setEditable(false);
+
+        jLabel6.setText("No Telepon");
+
+        jNoTelepon.setEditable(false);
+
+        jLabel7.setText("Alamat");
+
+        jAlamat.setEditable(false);
 
         jJumlahHari.setText(".....");
-        getContentPane().add(jJumlahHari, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 280, -1, -1));
+
+        jLabel9.setText("Tanggal Sewa");
+
+        jLabel8.setText("Tanggal Kembali");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(6, 6, 6)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jWarna, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jJumlahHari, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jHargaSewaPerhari, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jNamaPenyewa, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jNoTelepon, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jAlamat, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jMerk, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(52, 52, 52)
+                                        .addComponent(jLabel9))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(52, 52, 52)
+                                        .addComponent(jLabel8)))
+                                .addGap(0, 67, Short.MAX_VALUE)))
+                        .addContainerGap())))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel9)
+                        .addGap(2, 2, 2)
+                        .addComponent(jMerk, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8))
+                .addGap(0, 0, 0)
+                .addComponent(jWarna, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jJumlahHari))
+                .addGap(6, 6, 6)
+                .addComponent(jHargaSewaPerhari, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(jLabel5)
+                .addGap(6, 6, 6)
+                .addComponent(jNamaPenyewa, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(jLabel6)
+                .addGap(6, 6, 6)
+                .addComponent(jNoTelepon, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(jAlamat, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, 350, 320));
+
+        jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/transaksi bg.jpg"))); // NOI18N
+        getContentPane().add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 810, 520));
 
         jMenu1.setText("Menu");
 
         jMenuItem1.setText("List Semua Mobil");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem1);
 
-        jMenuItem2.setText("Form Transaksi");
+        jMenuItem2.setText("Data Transaksi");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem2);
 
         jMenuBar1.add(jMenu1);
@@ -242,10 +390,6 @@ public class Transaksi extends javax.swing.JFrame {
 
                 id_user = LoginClass.getIdUsers();
 
-                System.out.println("ini id mobil " + id_mobil);
-
-                System.out.println("ini id users" + id_user);
-
 //            menampilkan ke textField
                 jMerk.setText(merk);
                 jWarna.setText(warna);
@@ -259,26 +403,32 @@ public class Transaksi extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        
-       int totalHargaSewa = totalHarga;
-        
-        
+
+        int totalHargaSewa = totalHarga;
+
         java.util.Date tanggalSewa = jTanggalSewa.getDate();
-        java.sql.Date tglSewa = new java.sql.Date(tanggalSewa.getTime());
-        
-        java.util.Date tanggalKembali = jTanggalKembali.getDate();
-        java.sql.Date tglKembali = new java.sql.Date(tanggalKembali.getTime());
 
+        if (jTotalBayar.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Anda Belum Memilih Tanggal Sewa Atau Tanggal Kembali","Warning",JOptionPane.WARNING_MESSAGE);
+        } else {
+            try {
+                java.sql.Date tglSewa = new java.sql.Date(tanggalSewa.getTime());
 
-        try {
-            transaksi.insertData(id_mobil, id_pelanggan, tglSewa, tglKembali, totalHargaSewa, id_user);
-        } catch (Exception e) {
-            e.printStackTrace();
+                java.util.Date tanggalKembali = jTanggalKembali.getDate();
+                java.sql.Date tglKembali = new java.sql.Date(tanggalKembali.getTime());
+                transaksi.insertData(id_mobil, id_pelanggan, tglSewa, tglKembali, totalHargaSewa, id_user);
+                clear();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTablePelangganMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTablePelangganMouseClicked
         // TODO add your handling code here:
+        jTanggalSewa.setEnabled(true);
+        jTanggalKembali.setEnabled(true);
         try {
             int row = jTablePelanggan.rowAtPoint(evt.getPoint());
             int col = jTablePelanggan.columnAtPoint(evt.getPoint());
@@ -287,8 +437,6 @@ public class Transaksi extends javax.swing.JFrame {
                 String noTelepon = (String) jTablePelanggan.getValueAt(row, 1);
                 String alamat = (String) jTablePelanggan.getValueAt(row, 2);
                 id_pelanggan = (int) jTablePelanggan.getModel().getValueAt(row, 3);
-
-                System.out.println("ini id pelanggan" + id_pelanggan);
 
 //            menampilkan ke textField
                 jNamaPenyewa.setText(nama);
@@ -308,7 +456,7 @@ public class Transaksi extends javax.swing.JFrame {
 // Mengambil Format Tanggal
             LocalDate startDate = jTanggalSewa.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             LocalDate endDate = jTanggalKembali.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-// Hitung jumlah hari antara dua tanggal tersebut
+// menghitung selisih tanggal
             Period period = Period.between(startDate, endDate);
             int selisihHari = period.getDays();
             if (selisihHari < 0) {
@@ -322,11 +470,56 @@ public class Transaksi extends javax.swing.JFrame {
             jJumlahHari.setText(selisihHari + " Hari");
 // Format total harga menjadi uang
             String totalHargaString = formatter.format(totalHarga);
-            jTotalHarga.setText(totalHargaString);
+            jTotalBayar.setText(totalHargaString);
         } catch (Exception e) {
-           
+
         }
     }//GEN-LAST:event_jTanggalKembaliPropertyChange
+
+    private void jSearchMobilKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jSearchMobilKeyTyped
+        // TODO add your handling code here:
+        String query = jSearchMobil.getText();
+        transaksi.search(query);
+    }//GEN-LAST:event_jSearchMobilKeyTyped
+
+    private void jSearchPelangganKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jSearchPelangganKeyTyped
+        // TODO add your handling code here:
+        String query = jSearchPelanggan.getText();
+        transaksi.searchPelanggan(query);
+    }//GEN-LAST:event_jSearchPelangganKeyTyped
+
+    private void jBayarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jBayarKeyReleased
+        // TODO add your handling code here:
+        int totalBayar = totalHarga;
+        String str = jBayar.getText();
+        int bayar = 0;
+        if (str.matches("\\d+")) {
+            bayar = Integer.parseInt(str);
+        } else {
+           
+        }
+        int hasil = bayar - totalBayar;
+        NumberFormat formatter = NumberFormat.getCurrencyInstance();
+        String kembali = formatter.format(hasil);
+        jKembali.setText(kembali);
+    }//GEN-LAST:event_jBayarKeyReleased
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        clear();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        MobilAllList mobil = new MobilAllList();
+        mobil.setVisible(true);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+        TransaksiList transaksiList = new TransaksiList();
+        transaksiList.setVisible(true);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -396,10 +589,19 @@ public class Transaksi extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField jAlamat;
+    private javax.swing.JTextField jBayar;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JTextField jHargaSewaPerhari;
     private javax.swing.JLabel jJumlahHari;
+    private javax.swing.JTextField jKembali;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -419,11 +621,12 @@ public class Transaksi extends javax.swing.JFrame {
     public static javax.swing.JPanel jPanelTablePelanggan;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextField jSearchMobil;
+    private javax.swing.JTextField jSearchPelanggan;
     public static javax.swing.JTable jTablePelanggan;
     private com.toedter.calendar.JDateChooser jTanggalKembali;
     private com.toedter.calendar.JDateChooser jTanggalSewa;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTotalHarga;
+    private javax.swing.JTextField jTotalBayar;
     private javax.swing.JTextField jWarna;
     public static javax.swing.JTable tblMobilTersedia;
     // End of variables declaration//GEN-END:variables

@@ -212,6 +212,5 @@ public class PelangganClass {
     void listPelanggan() {
         clearList();
         getDataAll();
-//        totalMobil();
     }
 }

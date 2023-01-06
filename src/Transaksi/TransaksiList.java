@@ -27,7 +27,7 @@ public class TransaksiList extends javax.swing.JFrame {
     public TransaksiList() {
         initComponents();
         layout.Layout(this);
-        transaksi.listTransaksi();
+        transaksi.listTransaksi(false);
     }
 
     /**
@@ -43,7 +43,6 @@ public class TransaksiList extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTblTransaksi = new javax.swing.JTable();
         jFilterTanggal = new com.toedter.calendar.JDateChooser();
-        jButton1 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jNamaPenyewa = new javax.swing.JTextField();
@@ -52,16 +51,18 @@ public class TransaksiList extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jStatus = new javax.swing.JComboBox<>();
         jButton2 = new javax.swing.JButton();
+        jPilihData = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("List Transaksi");
+        setTitle("TRANSAKSI REPORT");
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel1.setText("Data Transaksi");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, -1));
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("DATA TRANSAKSI");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
 
         jTblTransaksi.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -88,18 +89,10 @@ public class TransaksiList extends javax.swing.JFrame {
                 jFilterTanggalPropertyChange(evt);
             }
         });
-        getContentPane().add(jFilterTanggal, new org.netbeans.lib.awtextra.AbsoluteConstraints(574, 33, 174, -1));
-
-        jButton1.setText("Semua Data Transaksi");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(766, 30, -1, -1));
+        getContentPane().add(jFilterTanggal, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 30, 174, -1));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 255), 5, true), "Status Sewa"));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 255), 5, true), "Status Sewa", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
 
         jLabel2.setText("Nama Penyewa");
 
@@ -161,10 +154,18 @@ public class TransaksiList extends javax.swing.JFrame {
                 .addComponent(jStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton2)
-                .addContainerGap(40, Short.MAX_VALUE))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 270, 580, 250));
+
+        jPilihData.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Belum Di Kembalikan", "Semua List Transaksi" }));
+        jPilihData.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jPilihDataItemStateChanged(evt);
+            }
+        });
+        getContentPane().add(jPilihData, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 30, 170, -1));
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/list transaksi.jpg"))); // NOI18N
         getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 530));
@@ -183,12 +184,6 @@ public class TransaksiList extends javax.swing.JFrame {
         } catch (Exception e) {
         }
     }//GEN-LAST:event_jFilterTanggalPropertyChange
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        jFilterTanggal.setDate(null);
-        transaksi.listTransaksi();
-    }//GEN-LAST:event_jButton1ActionPerformed
 
     private int id_mobil;
     private int id_transaksi;
@@ -222,7 +217,6 @@ public class TransaksiList extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        
         String status = (String) jStatus.getSelectedItem();
         int idMobil = id_mobil;
         int idTransaksi = id_transaksi;
@@ -233,6 +227,15 @@ public class TransaksiList extends javax.swing.JFrame {
         } catch (Exception e) {
         }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jPilihDataItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jPilihDataItemStateChanged
+        // TODO add your handling code here:
+        if(jPilihData.getSelectedItem() == "Belum Di Kembalikan"){
+            transaksi.listTransaksi(false);
+        }else if(jPilihData.getSelectedItem() == "Semua List Transaksi"){
+            transaksi.listTransaksi(true);
+        }
+    }//GEN-LAST:event_jPilihDataItemStateChanged
 
     /**
      * @param args the command line arguments
@@ -270,7 +273,6 @@ public class TransaksiList extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private com.toedter.calendar.JDateChooser jFilterTanggal;
     private javax.swing.JLabel jLabel1;
@@ -281,6 +283,7 @@ public class TransaksiList extends javax.swing.JFrame {
     private javax.swing.JTextField jMerk;
     private javax.swing.JTextField jNamaPenyewa;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JComboBox<String> jPilihData;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JComboBox<String> jStatus;
     public static javax.swing.JTable jTblTransaksi;

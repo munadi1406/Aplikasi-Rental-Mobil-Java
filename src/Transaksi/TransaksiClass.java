@@ -67,7 +67,6 @@ public class TransaksiClass {
             String sql = "Select * from mobil where stok > 0";
             ResultSet res = stat.executeQuery(sql);
 
-            
             NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("id", "ID"));
             while (res.next()) {
                 Object[] obj = new Object[7];
@@ -90,14 +89,14 @@ public class TransaksiClass {
                 try {
                     stat.close();
                 } catch (SQLException e) {
-                  
+
                 }
             }
             if (conn != null) {
                 try {
                     conn.close();
                 } catch (SQLException e) {
-                    
+
                 }
             }
         }
@@ -126,13 +125,12 @@ public class TransaksiClass {
         model.getDataVector().removeAllElements();
         model.fireTableDataChanged();
         try {
-            
+
             conn = getKoneksi();
             stat = conn.createStatement();
             String sql = "Select * from pelanggan";
             ResultSet res = stat.executeQuery(sql);
 
-           
             while (res.next()) {
                 Object[] obj = new Object[4];
                 obj[0] = res.getString("nama");
@@ -196,8 +194,8 @@ public class TransaksiClass {
     }
 
 //    unutk menampilkan list seluruh transaksi untuk form transaksiList
-    void getDataTransaksi(Date tanggalFilter) {
-        
+    void getDataTransaksi(Date tanggalFilter, Boolean pilih) {
+
         model.getDataVector().removeAllElements();
         model.fireTableDataChanged();
 
@@ -206,11 +204,14 @@ public class TransaksiClass {
         try {
             conn = getKoneksi();
             stat = conn.createStatement();
-            if (tanggalFilter != null) {
+            if (tanggalFilter != null && !pilih) {
                 sql = " select t.id_transaksi, t.id_mobil ,u.username as Username,u.role as Role ,p.nama as Nama_Pelanggan ,p.no_telepon as No_Telepon,p.alamat as alamat,m.merk as Merk,t.status, t.tgl_kembali as Tanggal_Kembali  from transaksi t join users u on u.id_users = t.id_user join pelanggan p on p.id_pelanggan = t.id_pelanggan join mobil m on m.id = t.id_mobil where status = 'Belum di Kembalikan' AND t.tgl_kembali = ?";
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 stmt.setDate(1, tanggalFilter);
                 res = stmt.executeQuery();
+            } else if (pilih && tanggalFilter == null) {
+                sql = "select t.id_transaksi, t.id_mobil ,u.username as Username,u.role as Role ,p.nama as Nama_Pelanggan ,p.no_telepon as No_Telepon,p.alamat as alamat,m.merk as Merk,t.status, t.tgl_kembali as Tanggal_Kembali  from transaksi t join users u on u.id_users = t.id_user join pelanggan p on p.id_pelanggan = t.id_pelanggan join mobil m on m.id = t.id_mobil";
+                res = stat.executeQuery(sql);
             } else {
                 sql = " select t.id_transaksi, t.id_mobil ,u.username as Username,u.role as Role ,p.nama as Nama_Pelanggan ,p.no_telepon as No_Telepon,p.alamat as alamat,m.merk as Merk,t.status, t.tgl_kembali as Tanggal_Kembali  from transaksi t join users u on u.id_users = t.id_user join pelanggan p on p.id_pelanggan = t.id_pelanggan join mobil m on m.id = t.id_mobil where status = 'Belum di Kembalikan'";
                 res = stat.executeQuery(sql);
@@ -256,7 +257,7 @@ public class TransaksiClass {
         try {
             conn = getKoneksi();
             stat = conn.createStatement();
-        
+
             String sql = "INSERT INTO transaksi (id_mobil, id_pelanggan, tgl_sewa, tgl_kembali, harga_sewa, id_user) "
                     + "VALUES (?, ?, ?, ?, ?, ?)";
 
@@ -335,21 +336,21 @@ public class TransaksiClass {
                 stmtUpdate.executeUpdate();
 
                 JOptionPane.showMessageDialog(null, "Data berhasil di ubah ", "Informasi", JOptionPane.INFORMATION_MESSAGE);
-                listTransaksi();
+                listTransaksi(false);
             } else {
-  
+
                 JOptionPane.showMessageDialog(null, "Data gagal ubah ", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } catch (SQLException e) {
-        
-            JOptionPane.showMessageDialog(null,"Data Gagal di ubah", "Error", JOptionPane.ERROR_MESSAGE);
+
+            JOptionPane.showMessageDialog(null, "Data Gagal di ubah", "Error", JOptionPane.ERROR_MESSAGE);
         } finally {
             // Tutup koneksi
             if (conn != null) {
                 try {
                     conn.close();
                 } catch (SQLException e) {
-         
+
                 }
             }
         }
@@ -367,25 +368,30 @@ public class TransaksiClass {
         getDataPelanggan();
     }
 //menampilkan list transaksi di form listtransaksi
-    void listTransaksi() {
+
+    void listTransaksi(Boolean pilih) {
+        //parameter pilih berfungsi untuk memvalidasi jika true maka yang di tampilan seluruh list transaksi
+        //jika false maka transaksi dengan kondisi belum di kembalikan yang akan di tampilkan
+        //parameter pilij ini dikirim lagi ke method getDataTransaksi
         clearListTransaksi();
         Date tanggal = null;
-        getDataTransaksi(tanggal);
+        getDataTransaksi(tanggal, pilih);
     }
 
     void listTransaksiFilter(Date filterTanggal) {
         clearListTransaksi();
-        getDataTransaksi(filterTanggal);
+        Boolean tes = false;
+        getDataTransaksi(filterTanggal, tes);
     }
 
 //    method search untuk mencari di tabel mobil
     void search(String query) {
         TableRowSorter<TableModel> sorter = new TableRowSorter<>(Transaksi.tblMobilTersedia.getModel());
         Transaksi.tblMobilTersedia.setRowSorter(sorter);
-     
+
         String text = query;
         RowFilter<TableModel, Object> filter = RowFilter.regexFilter("(?i)" + text, 1);
-        
+
         sorter.setRowFilter(filter);
     }
 
@@ -393,10 +399,10 @@ public class TransaksiClass {
     void searchPelanggan(String query) {
         TableRowSorter<TableModel> sorter = new TableRowSorter<>(Transaksi.jTablePelanggan.getModel());
         Transaksi.jTablePelanggan.setRowSorter(sorter);
-        
+
         String text = query;
         RowFilter<TableModel, Object> filter = RowFilter.regexFilter("(?i)" + text, 0);
-     
+
         sorter.setRowFilter(filter);
     }
 

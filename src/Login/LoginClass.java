@@ -49,8 +49,7 @@ public class LoginClass {
             if (res.next()) {
                 id_users = res.getInt("id_users");
                 role = res.getString("role");
-                // simpan role dalam variabel atau lakukan tindakan lain dengan role tersebut
-//        System.out.println(role);
+
                 return true;
             } else {
                 return false;
@@ -63,23 +62,25 @@ public class LoginClass {
                 try {
                     stmt.close();
                 } catch (SQLException e) {
-                    // menangani kesalahan jika terjadi
+
                 }
             }
             if (conn != null) {
                 try {
                     conn.close();
                 } catch (SQLException e) {
-                    // menangani kesalahan jika terjadi
+    
                 }
             }
         }
     }
 
+//    untuk mengirim role ke home (hasil dari login)
     public static String getRole() {
         return role;
     }
 
+//    mengirim id users ke form transaksi (hasil dari login)
     public static int getIdUsers() {
         return id_users;
     }

@@ -12,6 +12,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.NumberFormat;
+import java.util.Locale;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.RowFilter;
@@ -65,7 +67,8 @@ public class TransaksiClass {
             String sql = "Select * from mobil where stok > 0";
             ResultSet res = stat.executeQuery(sql);
 
-            //penelusuran baris pada tabel tblGaji dari database
+            
+            NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("id", "ID"));
             while (res.next()) {
                 Object[] obj = new Object[7];
                 obj[0] = res.getString("nomor_plat");
@@ -73,7 +76,8 @@ public class TransaksiClass {
                 obj[2] = res.getDate("tahun_pembuatan");
                 obj[3] = res.getString("warna");
                 obj[4] = res.getInt("stok");
-                obj[5] = res.getString("harga_sewa_perhari");
+                double hargaSewa = res.getDouble("harga_sewa_perhari");
+                obj[5] = currencyFormat.format(hargaSewa);
                 obj[6] = res.getInt("id");
 
                 model.addRow(obj);
@@ -86,14 +90,14 @@ public class TransaksiClass {
                 try {
                     stat.close();
                 } catch (SQLException e) {
-                    // menangani kesalahan jika terjadi
+                  
                 }
             }
             if (conn != null) {
                 try {
                     conn.close();
                 } catch (SQLException e) {
-                    // menangani kesalahan jika terjadi
+                    
                 }
             }
         }
@@ -116,19 +120,19 @@ public class TransaksiClass {
         tc.setPreferredWidth(0);
     }
 
-//    unutk menampilkan list seluruh mobil yang tersedia ,di panggil  di listmobil
+//    unutk menampilkan list seluruh pelanggan 
     void getDataPelanggan() {
         //menghapus isi table tblGaji
         model.getDataVector().removeAllElements();
         model.fireTableDataChanged();
         try {
-            //membuat statemen pemanggilan data pada table tblGaji dari database
+            
             conn = getKoneksi();
             stat = conn.createStatement();
             String sql = "Select * from pelanggan";
             ResultSet res = stat.executeQuery(sql);
 
-            //penelusuran baris pada tabel tblGaji dari database
+           
             while (res.next()) {
                 Object[] obj = new Object[4];
                 obj[0] = res.getString("nama");
@@ -159,6 +163,7 @@ public class TransaksiClass {
         }
     }
 
+//    untuk form transaksiList
     public void clearListTransaksi() {
         model = new DefaultTableModel();
         JTable tblPelanggan;
@@ -190,33 +195,26 @@ public class TransaksiClass {
 
     }
 
-//    unutk menampilkan list seluruh mobil yang tersedia ,di panggil  di listmobil
+//    unutk menampilkan list seluruh transaksi untuk form transaksiList
     void getDataTransaksi(Date tanggalFilter) {
-        //menghapus isi table tblGaji
+        
         model.getDataVector().removeAllElements();
         model.fireTableDataChanged();
 
         String sql = null;
         ResultSet res;
         try {
-            //membuat statemen pemanggilan data pada table tblGaji dari database
-
             conn = getKoneksi();
             stat = conn.createStatement();
             if (tanggalFilter != null) {
                 sql = " select t.id_transaksi, t.id_mobil ,u.username as Username,u.role as Role ,p.nama as Nama_Pelanggan ,p.no_telepon as No_Telepon,p.alamat as alamat,m.merk as Merk,t.status, t.tgl_kembali as Tanggal_Kembali  from transaksi t join users u on u.id_users = t.id_user join pelanggan p on p.id_pelanggan = t.id_pelanggan join mobil m on m.id = t.id_mobil where status = 'Belum di Kembalikan' AND t.tgl_kembali = ?";
                 PreparedStatement stmt = conn.prepareStatement(sql);
-
-                // Atur parameter untuk statement
                 stmt.setDate(1, tanggalFilter);
-
                 res = stmt.executeQuery();
             } else {
                 sql = " select t.id_transaksi, t.id_mobil ,u.username as Username,u.role as Role ,p.nama as Nama_Pelanggan ,p.no_telepon as No_Telepon,p.alamat as alamat,m.merk as Merk,t.status, t.tgl_kembali as Tanggal_Kembali  from transaksi t join users u on u.id_users = t.id_user join pelanggan p on p.id_pelanggan = t.id_pelanggan join mobil m on m.id = t.id_mobil where status = 'Belum di Kembalikan'";
                 res = stat.executeQuery(sql);
             }
-
-            //penelusuran baris pada tabel tblGaji dari database
             while (res.next()) {
                 Object[] obj = new Object[10];
                 obj[0] = res.getString("Username");
@@ -234,7 +232,6 @@ public class TransaksiClass {
             }
         } catch (SQLException err) {
             JOptionPane.showMessageDialog(null, err.getMessage());
-            err.printStackTrace();
         } finally {
             // menutup koneksi ke database
             if (stat != null) {
@@ -254,29 +251,29 @@ public class TransaksiClass {
         }
     }
 
-//    menambah data mobil
+//    membuat transaksi
     void insertData(int idMobil, int idPelanggan, Date tanggalSewa, Date tanggalKembali, int hargaSewa, int idUser) throws SQLException {
         try {
             conn = getKoneksi();
             stat = conn.createStatement();
-            // Buat statement
+        
             String sql = "INSERT INTO transaksi (id_mobil, id_pelanggan, tgl_sewa, tgl_kembali, harga_sewa, id_user) "
                     + "VALUES (?, ?, ?, ?, ?, ?)";
 
             PreparedStatement stmt = conn.prepareStatement(sql);
-// Atur parameter untuk statement
+
             stmt.setInt(1, idMobil);
             stmt.setInt(2, idPelanggan);
             stmt.setDate(3, tanggalSewa);
             stmt.setDate(4, tanggalKembali);
             stmt.setInt(5, hargaSewa);
             stmt.setInt(6, idUser);
-            // Eksekusi statement
+
             int affectedRows = stmt.executeUpdate();
             if (affectedRows > 0) {
                 int currentStock = 0;
 
-                // Ambil jumlah stok saat ini
+                // mengambil jumlah stok saat ini
                 String sqlSelect = "SELECT stok FROM mobil WHERE id = ?";
                 PreparedStatement stmtSelect = conn.prepareStatement(sqlSelect);
                 stmtSelect.setInt(1, idMobil);
@@ -285,40 +282,36 @@ public class TransaksiClass {
                     currentStock = rs.getInt("stok");
                 }
 
-                // Periksa apakah stok cukup
                 if (currentStock > 0) {
-                    // Update jumlah stok mobil
+                    // mengurangi jumlah stok mobil
                     String sqlUpdate = "UPDATE mobil SET stok = stok - 1 WHERE id = ?";
                     PreparedStatement stmtUpdate = conn.prepareStatement(sqlUpdate);
                     stmtUpdate.setInt(1, idMobil);
                     stmtUpdate.executeUpdate();
                 } else {
-                    // Tampilkan pesan error atau lakukan tindakan lain
-                    System.out.println("Stok mobil tidak cukup.");
                 }
                 // Tampilkan pesan berhasil
-                JOptionPane.showMessageDialog(null, "Data berhasil disimpan ke database", "Informasi", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Data berhasil disimpan", "Informasi", JOptionPane.INFORMATION_MESSAGE);
                 listMobilTersedia();
             } else {
                 // Tampilkan pesan gagal
-                JOptionPane.showMessageDialog(null, "Data gagal disimpan ke database", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Data gagal disimpan ", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } catch (SQLException e) {
-            // Tampilkan pesan error
             JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
         } finally {
             // Tutup koneksi
             if (conn != null) {
                 try {
                     conn.close();
                 } catch (SQLException e) {
-                    e.printStackTrace();
+
                 }
             }
         }
     }
 
+//    untuk edit data (transaksiList) jika mobil di kembalikan
     void editData(String status, int idTransaksi, int idMobil) {
         try {
             conn = getKoneksi();
@@ -335,64 +328,28 @@ public class TransaksiClass {
             int affectedRows = stmt.executeUpdate();
             if (affectedRows > 0) {
 
-//                untuk menambha stok mobil yang sudah di kembalikan
+//                untuk menambah stok mobil yang sudah di kembalikan
                 String sqlUpdate = "UPDATE mobil SET stok = stok + 1 WHERE id = ?";
                 PreparedStatement stmtUpdate = conn.prepareStatement(sqlUpdate);
                 stmtUpdate.setInt(1, idMobil);
                 stmtUpdate.executeUpdate();
 
-                // Tampilkan pesan berhasil
                 JOptionPane.showMessageDialog(null, "Data berhasil di ubah ", "Informasi", JOptionPane.INFORMATION_MESSAGE);
                 listTransaksi();
             } else {
-                // Tampilkan pesan gagal
+  
                 JOptionPane.showMessageDialog(null, "Data gagal ubah ", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } catch (SQLException e) {
-            // Tampilkan pesan error
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        
+            JOptionPane.showMessageDialog(null,"Data Gagal di ubah", "Error", JOptionPane.ERROR_MESSAGE);
         } finally {
             // Tutup koneksi
             if (conn != null) {
                 try {
                     conn.close();
                 } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-    void hapusData(int id) {
-        try {
-            conn = getKoneksi();
-            stat = conn.createStatement();
-
-            // Buat statement
-            String sql = "delete from mobil where id = ?";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            // Atur parameter untuk statement
-            stmt.setInt(1, id);
-
-            // Eksekusi statement
-            int affectedRows = stmt.executeUpdate();
-            if (affectedRows > 0) {
-                // Tampilkan pesan berhasil
-                JOptionPane.showMessageDialog(null, "Data berhasil di hapus ", "Informasi", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                // Tampilkan pesan gagal
-                JOptionPane.showMessageDialog(null, "Data gagal hapus ", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        } catch (SQLException e) {
-            // Tampilkan pesan error
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } finally {
-            // Tutup koneksi
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
+         
                 }
             }
         }
@@ -404,15 +361,15 @@ public class TransaksiClass {
         getMobilTersedia();
     }
 
+//    menampilkan list pelanggak
     void listPelanggan() {
         clearListPelanggan();
         getDataPelanggan();
     }
-
+//menampilkan list transaksi di form listtransaksi
     void listTransaksi() {
         clearListTransaksi();
         Date tanggal = null;
-        boolean filter = false;
         getDataTransaksi(tanggal);
     }
 
@@ -425,24 +382,21 @@ public class TransaksiClass {
     void search(String query) {
         TableRowSorter<TableModel> sorter = new TableRowSorter<>(Transaksi.tblMobilTersedia.getModel());
         Transaksi.tblMobilTersedia.setRowSorter(sorter);
-
-        // Buat filter berdasarkan teks yang dimasukkan
+     
         String text = query;
         RowFilter<TableModel, Object> filter = RowFilter.regexFilter("(?i)" + text, 1);
-
-        // Set filter ke tabel
+        
         sorter.setRowFilter(filter);
     }
 
+//    unutk mencari pelanggan
     void searchPelanggan(String query) {
         TableRowSorter<TableModel> sorter = new TableRowSorter<>(Transaksi.jTablePelanggan.getModel());
         Transaksi.jTablePelanggan.setRowSorter(sorter);
-
-        // Buat filter berdasarkan teks yang dimasukkan
+        
         String text = query;
         RowFilter<TableModel, Object> filter = RowFilter.regexFilter("(?i)" + text, 0);
-
-        // Set filter ke tabel
+     
         sorter.setRowFilter(filter);
     }
 

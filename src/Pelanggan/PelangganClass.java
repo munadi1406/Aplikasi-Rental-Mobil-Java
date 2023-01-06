@@ -52,13 +52,11 @@ public class PelangganClass {
         model.getDataVector().removeAllElements();
         model.fireTableDataChanged();
         try {
-            //membuat statemen pemanggilan data pada table tblGaji dari database
             conn = getKoneksi();
             stat = conn.createStatement();
             String sql = "Select * from pelanggan";
             ResultSet res = stat.executeQuery(sql);
 
-            //penelusuran baris pada tabel tblGaji dari database
             while (res.next()) {
                 Object[] obj = new Object[4];
                 obj[0] = res.getString("nama");
@@ -100,28 +98,28 @@ public class PelangganClass {
             }
            
 
-            // Buat statement
+
             String sql = "INSERT INTO pelanggan (nama,no_telepon,alamat) VALUES (?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(sql);
             // Atur parameter untuk statement
             stmt.setString(1, nama);
             stmt.setString(2, noTelepon);
             stmt.setString(3, alamat);
-            // Eksekusi statement
+     
             int affectedRows = stmt.executeUpdate();
             if (affectedRows > 0) {
-                // Tampilkan pesan berhasil
+             
                 JOptionPane.showMessageDialog(null, "Data berhasil disimpan ke database", "Informasi", JOptionPane.INFORMATION_MESSAGE);
                 listPelanggan();
             } else {
-                // Tampilkan pesan gagal
+                
                 JOptionPane.showMessageDialog(null, "Data gagal disimpan ke database", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } catch (SQLException e) {
-            // Tampilkan pesan error
+            
             JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         } finally {
-            // Tutup koneksi
+            // menutup koneksi
             if (conn != null) {
                 try {
                     conn.close();
@@ -137,26 +135,26 @@ public class PelangganClass {
             conn = getKoneksi();
             stat = conn.createStatement();
 
-            // Buat statement
+        
             String sql = "UPDATE pelanggan set nama = ? ,no_telepon = ? , alamat = ? where id_pelanggan = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
-            // Atur parameter untuk statement
+ 
             stmt.setString(1, nama);
             stmt.setString(2, alamat);
             stmt.setString(3,noTelepon);
             stmt.setInt(4, id);
-            // Eksekusi statement
+      
             int affectedRows = stmt.executeUpdate();
             if (affectedRows > 0) {
-                // Tampilkan pesan berhasil
+         
                 JOptionPane.showMessageDialog(null, "Data berhasil di ubah ", "Informasi", JOptionPane.INFORMATION_MESSAGE);
                 listPelanggan();
             } else {
-                // Tampilkan pesan gagal
+           
                 JOptionPane.showMessageDialog(null, "Data gagal ubah ", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } catch (SQLException e) {
-            // Tampilkan pesan error
+     
             JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         } finally {
             // Tutup koneksi
@@ -178,24 +176,24 @@ public class PelangganClass {
             conn = getKoneksi();
             stat = conn.createStatement();
 
-            // Buat statement
+        
             String sql = "delete from pelanggan where id_pelanggan = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
-            // Atur parameter untuk statement
+          
             stmt.setInt(1, id);
 
-            // Eksekusi statement
+        
             int affectedRows = stmt.executeUpdate();
             if (affectedRows > 0) {
-                // Tampilkan pesan berhasil
+            
                 JOptionPane.showMessageDialog(null, "Data Pelanggan berhasil di hapus ", "Informasi", JOptionPane.INFORMATION_MESSAGE);
                 listPelanggan();
             } else {
-                // Tampilkan pesan gagal
+     
                 JOptionPane.showMessageDialog(null, "Data Pelanggan gagal hapus ", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } catch (SQLException e) {
-            // Tampilkan pesan error
+
             JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         } finally {
             // Tutup koneksi

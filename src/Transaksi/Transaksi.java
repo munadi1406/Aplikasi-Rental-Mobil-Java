@@ -9,6 +9,8 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
 import Mobil.MobilAllList;
+import java.awt.event.KeyEvent;
+import java.util.Locale;
 
 import javax.swing.JOptionPane;
 
@@ -21,7 +23,7 @@ public class Transaksi extends javax.swing.JFrame {
     private int id_mobil;
     private int id_pelanggan;
 
-    private void clear(){
+    private void clear() {
         jMerk.setText(null);
         jWarna.setText(null);
         jHargaSewaPerhari.setText(null);
@@ -38,7 +40,7 @@ public class Transaksi extends javax.swing.JFrame {
         jJumlahHari.setText("....");
         jTanggalKembali.setEnabled(false);
     }
-    
+
     public Transaksi() {
         initComponents();
         layout.Layout(this);
@@ -99,6 +101,7 @@ public class Transaksi extends javax.swing.JFrame {
         jMenuItem2 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Transaksi");
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -221,6 +224,9 @@ public class Transaksi extends javax.swing.JFrame {
         jBayar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jBayarKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jBayarKeyTyped(evt);
             }
         });
         getContentPane().add(jBayar, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 340, 140, 30));
@@ -385,18 +391,25 @@ public class Transaksi extends javax.swing.JFrame {
             if (row >= 0 && col >= 0) {
                 String merk = (String) tblMobilTersedia.getValueAt(row, 1);
                 String warna = (String) tblMobilTersedia.getValueAt(row, 3);
-                String hargaPerH = (String) tblMobilTersedia.getValueAt(row, 5);
-                id_mobil = (int) tblMobilTersedia.getModel().getValueAt(row, 6);
 
+                // Ambil value dari tabel
+                String hargaPerH = (String) tblMobilTersedia.getValueAt(row, 5);
+
+//                menghilangkan format uang
+                String hargaPerHTanpaFormat = hargaPerH.replaceAll("[Rp,.]", "");
+                String hargaPerHTanpaFormatUang = hargaPerHTanpaFormat.substring(0, hargaPerHTanpaFormat.length() - 2);
+
+                id_mobil = (int) tblMobilTersedia.getModel().getValueAt(row, 6);
                 id_user = LoginClass.getIdUsers();
 
 //            menampilkan ke textField
                 jMerk.setText(merk);
                 jWarna.setText(warna);
-                jHargaSewaPerhari.setText(hargaPerH);
+                jHargaSewaPerhari.setText(hargaPerHTanpaFormatUang);
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Terjadi Error Saat Mengambil Data", "error", JOptionPane.ERROR_MESSAGE);
+          
         }
 
     }//GEN-LAST:event_tblMobilTersediaMouseClicked
@@ -406,20 +419,20 @@ public class Transaksi extends javax.swing.JFrame {
 
         int totalHargaSewa = totalHarga;
 
-        java.util.Date tanggalSewa = jTanggalSewa.getDate();
-
         if (jTotalBayar.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Anda Belum Memilih Tanggal Sewa Atau Tanggal Kembali","Warning",JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Anda Belum Memilih Tanggal Sewa Atau Tanggal Kembali", "Warning", JOptionPane.WARNING_MESSAGE);
         } else {
             try {
+                java.util.Date tanggalSewa = jTanggalSewa.getDate();
                 java.sql.Date tglSewa = new java.sql.Date(tanggalSewa.getTime());
 
                 java.util.Date tanggalKembali = jTanggalKembali.getDate();
                 java.sql.Date tglKembali = new java.sql.Date(tanggalKembali.getTime());
+                
                 transaksi.insertData(id_mobil, id_pelanggan, tglSewa, tglKembali, totalHargaSewa, id_user);
                 clear();
             } catch (SQLException e) {
-                e.printStackTrace();
+             
             }
         }
 
@@ -453,19 +466,19 @@ public class Transaksi extends javax.swing.JFrame {
         try {
             String hargaSewaPerHari = jHargaSewaPerhari.getText();
             int hargaSewaPerHariInt = Integer.parseInt(hargaSewaPerHari);
-// Mengambil Format Tanggal
+
             LocalDate startDate = jTanggalSewa.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             LocalDate endDate = jTanggalKembali.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 // menghitung selisih tanggal
             Period period = Period.between(startDate, endDate);
             int selisihHari = period.getDays();
             if (selisihHari < 0) {
-                // Tampilkan pesan peringatan jika hasil perhitungan jumlah hari bernilai negatif
+                // Tampilkan pesan peringatan jika hasil perhitungan jumlah hari bernilai minus
                 JOptionPane.showMessageDialog(null, "Periksa lagi tanggal sewa dan tanggal kembali", "Warning", JOptionPane.WARNING_MESSAGE);
                 return;
             }
             totalHarga = hargaSewaPerHariInt * selisihHari;
-            NumberFormat formatter = NumberFormat.getCurrencyInstance();
+            NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("id", "ID"));
 
             jJumlahHari.setText(selisihHari + " Hari");
 // Format total harga menjadi uang
@@ -496,10 +509,10 @@ public class Transaksi extends javax.swing.JFrame {
         if (str.matches("\\d+")) {
             bayar = Integer.parseInt(str);
         } else {
-           
+
         }
         int hasil = bayar - totalBayar;
-        NumberFormat formatter = NumberFormat.getCurrencyInstance();
+        NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("id", "ID"));
         String kembali = formatter.format(hasil);
         jKembali.setText(kembali);
     }//GEN-LAST:event_jBayarKeyReleased
@@ -520,6 +533,16 @@ public class Transaksi extends javax.swing.JFrame {
         TransaksiList transaksiList = new TransaksiList();
         transaksiList.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jBayarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jBayarKeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        if (!((Character.isDigit(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE)))) {
+            getToolkit().beep();
+            JOptionPane.showMessageDialog(null, "Masukkan Hanya Angka ");
+            evt.consume();
+        }
+    }//GEN-LAST:event_jBayarKeyTyped
 
     /**
      * @param args the command line arguments

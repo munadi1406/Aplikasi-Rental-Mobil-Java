@@ -98,7 +98,6 @@ public class Login extends javax.swing.JFrame {
         } else if (password.equals("")) {
             JOptionPane.showMessageDialog(null, "password masih kosong", "Information", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            String[] role = new String[1];
             LoginClass loginClass = new LoginClass();
             boolean loginSuccess = loginClass.login(username, password);
             if (loginSuccess) {

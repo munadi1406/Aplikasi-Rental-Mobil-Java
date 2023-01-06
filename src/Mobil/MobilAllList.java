@@ -95,6 +95,7 @@ public class MobilAllList extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Mobil List");
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -266,13 +267,6 @@ public class MobilAllList extends javax.swing.JFrame {
         String nomorPlat = TNomorPlat.getText();
         String merk = TMerk.getText();
 
-        Date tanggal = DDate.getDate();
-        java.sql.Date tanggalSql = null;
-        if (tanggal != null) {
-            long time = tanggal.getTime();
-            tanggalSql = new java.sql.Date(time);
-        }
-
         String warna = TWarna.getText();
         String hSewa = THargaSewaPerH.getText();
         String stok = TStok.getText();
@@ -282,7 +276,7 @@ public class MobilAllList extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Nomor Plat Belum Di isi");
         } else if (merk == null || merk.trim().equals("")) {
             JOptionPane.showMessageDialog(null, "Merk Belum Di isi");
-        } else if (tanggal == null) {
+        } else if (DDate.getDate() == null) {
             JOptionPane.showMessageDialog(null, "Tanggal Belum Di Piih");
         } else if (warna == null || warna.trim().equals("")) {
             JOptionPane.showMessageDialog(null, "Warna Belum Di isi");
@@ -293,7 +287,10 @@ public class MobilAllList extends javax.swing.JFrame {
         } else {
             try {
                 stokInt = Integer.parseInt(stok);
-                mobil.insertData(nomorPlat, merk, tanggalSql, warna, stokInt, hSewa);
+                java.util.Date tanggal = DDate.getDate();
+                java.sql.Date tgl = new java.sql.Date(tanggal.getTime());
+                
+                mobil.insertData(nomorPlat, merk, tgl, warna, stokInt, hSewa);
                 clear();
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(null, "Stok Harus Berupa Angka");
@@ -356,6 +353,10 @@ public class MobilAllList extends javax.swing.JFrame {
                 String warna = (String) tblMobil.getValueAt(row, 3);
                 int stok = (int) tblMobil.getValueAt(row, 4);
                 String hargaPerH = (String) tblMobil.getValueAt(row, 5);
+//                mengubah menjadi tanpa format uang
+                String hargaPerHTanpaFormat = hargaPerH.replaceAll("[Rp,.]", "");
+                String hargaPerHTanpaFormatUang = hargaPerHTanpaFormat.substring(0, hargaPerHTanpaFormat.length() - 2);
+                
                 id = (int) tblMobil.getModel().getValueAt(row, 6);
 
 //            menampilkan ke textField
@@ -363,7 +364,7 @@ public class MobilAllList extends javax.swing.JFrame {
                 TMerk.setText(merk);
                 TWarna.setText(warna);
                 TStok.setText(String.valueOf(stok));
-                THargaSewaPerH.setText(hargaPerH);
+                THargaSewaPerH.setText(hargaPerHTanpaFormatUang);
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Terjadi Error Saat Mengambil Data", "error", JOptionPane.ERROR_MESSAGE);

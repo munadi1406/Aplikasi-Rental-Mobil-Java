@@ -31,13 +31,13 @@ public class PendapatanClass {
     public void clearListPendapatan() {
         model = new DefaultTableModel();
 
-        JTable tblMobilTersedia;
+        JTable tblPendapatan;
 
-        tblMobilTersedia = Pendapatan.jTblPendapatan;
+        tblPendapatan = Pendapatan.jTblPendapatan;
 
-        tblMobilTersedia.setModel(model);
+        tblPendapatan.setModel(model);
         model.addColumn("Tanggal Sewa");
-        model.addColumn("Pedapatan");
+        model.addColumn("Pendapatan");
 
     }
 
@@ -48,7 +48,7 @@ public class PendapatanClass {
         model.fireTableDataChanged();
         String sql;
         try {
-            //membuat statemen pemanggilan data pada table tblGaji dari database
+ 
             conn = getKoneksi();
             stat = conn.createStatement();
             ResultSet res = null;
@@ -60,16 +60,15 @@ public class PendapatanClass {
                 sql = "SELECT tgl_sewa, SUM(harga_sewa) FROM transaksi WHERE tgl_sewa BETWEEN ? AND ? GROUP BY tgl_sewa";
                 PreparedStatement stmt = conn.prepareStatement(sql);
 
-                // Atur parameter untuk statement
+               
                 stmt.setDate(1, dariTanggal);
                 stmt.setDate(2, sampaiTanggal);
 
                 res = stmt.executeQuery();
             }
 
-            //penelusuran baris pada tabel tblGaji dari database
+          
             NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("id", "ID"));
-
             while (res.next()) {
                 Object[] obj = new Object[2];
                 obj[0] = res.getString("tgl_sewa");
@@ -80,21 +79,21 @@ public class PendapatanClass {
             }
         } catch (SQLException err) {
             JOptionPane.showMessageDialog(null, err.getMessage());
-            err.printStackTrace();
+         
         } finally {
-            // menutup koneksi ke database
+   
             if (stat != null) {
                 try {
                     stat.close();
                 } catch (SQLException e) {
-                    // menangani kesalahan jika terjadi
+                
                 }
             }
             if (conn != null) {
                 try {
                     conn.close();
                 } catch (SQLException e) {
-                    // menangani kesalahan jika terjadi
+                 
                 }
             }
         }

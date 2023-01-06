@@ -246,7 +246,6 @@ public class Pendapatan extends javax.swing.JFrame {
                 }
                 JasperViewer.viewReport(jp, false);
             }
-
         } catch (Exception e) {
         }
 

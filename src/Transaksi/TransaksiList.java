@@ -180,6 +180,7 @@ public class TransaksiList extends javax.swing.JFrame {
                 java.util.Date filterTanggal = jFilterTanggal.getDate();
                 java.sql.Date tglFilter = new java.sql.Date(filterTanggal.getTime());
                 transaksi.listTransaksiFilter(tglFilter);
+                clear();
             }
         } catch (Exception e) {
         }
@@ -232,8 +233,10 @@ public class TransaksiList extends javax.swing.JFrame {
         // TODO add your handling code here:
         if(jPilihData.getSelectedItem() == "Belum Di Kembalikan"){
             transaksi.listTransaksi(false);
+            clear();
         }else if(jPilihData.getSelectedItem() == "Semua List Transaksi"){
             transaksi.listTransaksi(true);
+            clear();
         }
     }//GEN-LAST:event_jPilihDataItemStateChanged
 

@@ -67,6 +67,7 @@ public class Home extends javax.swing.JFrame {
         jUser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/users-solid_1.jpg"))); // NOI18N
         jUser.setText("USER");
         jUser.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(153, 153, 255), 2, true));
+        jUser.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jUserActionPerformed(evt);
@@ -79,6 +80,7 @@ public class Home extends javax.swing.JFrame {
         jButton47.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/rectangle-list-solid.jpg"))); // NOI18N
         jButton47.setText("TRANSASKI");
         jButton47.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(153, 153, 255), 2, true));
+        jButton47.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton47.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton47ActionPerformed(evt);
@@ -91,6 +93,7 @@ public class Home extends javax.swing.JFrame {
         jButton48.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/users-solid_1.jpg"))); // NOI18N
         jButton48.setText("PELANGGAN");
         jButton48.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(153, 153, 255), 2, true));
+        jButton48.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton48.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton48ActionPerformed(evt);
@@ -103,6 +106,7 @@ public class Home extends javax.swing.JFrame {
         jButton49.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/car-solid_1.jpg"))); // NOI18N
         jButton49.setText("MOBIL");
         jButton49.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(153, 153, 255), 2, true));
+        jButton49.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton49.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton49ActionPerformed(evt);

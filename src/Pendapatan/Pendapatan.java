@@ -7,8 +7,6 @@ package Pendapatan;
 
 import config.Config;
 import config.layout;
-import java.awt.print.PrinterException;
-import java.awt.print.PrinterJob;
 
 import java.io.File;
 import java.util.HashMap;
@@ -16,9 +14,9 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
 
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.view.JasperViewer;
@@ -252,16 +250,19 @@ public class Pendapatan extends javax.swing.JFrame {
     }//GEN-LAST:event_jCetakActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        
-        Config config = new Config();
-        File namafile = new File("src/Pendapatan/reportAllPendapatan.jasper");
-        JasperPrint jp = null;
         try {
-            jp = JasperFillManager.fillReport(namafile.getPath(), null, config.getKoneksi());
-        } catch (JRException ex) {
-            Logger.getLogger(Pendapatan.class.getName()).log(Level.SEVERE, null, ex);
+            Config config = new Config();
+            File namafile = new File("src/Pendapatan/reportAllPendapatan.jasper");
+            JasperPrint jp = null;
+            try {
+                jp = JasperFillManager.fillReport(namafile.getPath(), null, config.getKoneksi());
+            } catch (JRException ex) {
+                Logger.getLogger(Pendapatan.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            JasperViewer.viewReport(jp, false);
+        } catch (Exception e) {
         }
-        JasperViewer.viewReport(jp, false);
+
 
     }//GEN-LAST:event_jButton2ActionPerformed
 

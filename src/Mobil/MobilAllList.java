@@ -420,11 +420,6 @@ public class MobilAllList extends javax.swing.JFrame {
             Logger.getLogger(MobilAllList.class.getName()).log(Level.SEVERE, null, ex);
         }
         JasperViewer.viewReport(jp, false);
-        try {
-            JasperExportManager.exportReportToPdfFile(jp, "output.pdf");
-        } catch (JRException ex) {
-            ex.printStackTrace();
-        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

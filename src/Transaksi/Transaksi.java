@@ -94,6 +94,7 @@ public class Transaksi extends javax.swing.JFrame {
         jJumlahHari = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
         jLabel15 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -355,6 +356,14 @@ public class Transaksi extends javax.swing.JFrame {
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, 350, 320));
 
+        jButton3.setText("Refresh");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 20, -1, -1));
+
         jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/transaksi bg.jpg"))); // NOI18N
         getContentPane().add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 810, 520));
 
@@ -410,7 +419,7 @@ public class Transaksi extends javax.swing.JFrame {
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Terjadi Error Saat Mengambil Data", "error", JOptionPane.ERROR_MESSAGE);
-          
+
         }
 
     }//GEN-LAST:event_tblMobilTersediaMouseClicked
@@ -429,11 +438,11 @@ public class Transaksi extends javax.swing.JFrame {
 
                 java.util.Date tanggalKembali = jTanggalKembali.getDate();
                 java.sql.Date tglKembali = new java.sql.Date(tanggalKembali.getTime());
-                
+
                 transaksi.insertData(id_mobil, id_pelanggan, tglSewa, tglKembali, totalHargaSewa, id_user);
                 clear();
             } catch (SQLException e) {
-             
+
             }
         }
 
@@ -545,6 +554,12 @@ public class Transaksi extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jBayarKeyTyped
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+        new Transaksi().setVisible(true);
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -616,6 +631,7 @@ public class Transaksi extends javax.swing.JFrame {
     private javax.swing.JTextField jBayar;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JTextField jHargaSewaPerhari;
     private javax.swing.JLabel jJumlahHari;
     private javax.swing.JTextField jKembali;

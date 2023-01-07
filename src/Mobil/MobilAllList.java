@@ -16,7 +16,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.view.JasperViewer;
@@ -44,7 +43,6 @@ public class MobilAllList extends javax.swing.JFrame {
         THargaSewaPerH.setText(null);
         jSimpan.setEnabled(true);
         jEdit.setEnabled(false);
-        jHapus.setEnabled(false);
 
     }
 
@@ -53,8 +51,6 @@ public class MobilAllList extends javax.swing.JFrame {
         layout.Layout(this);
         mobil.listMobil();
         jEdit.setEnabled(false);
-        jHapus.setEnabled(false);
-
     }
 
     /**
@@ -88,7 +84,6 @@ public class MobilAllList extends javax.swing.JFrame {
         jSimpan = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jEdit = new javax.swing.JButton();
-        jHapus = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
@@ -202,13 +197,6 @@ public class MobilAllList extends javax.swing.JFrame {
             }
         });
 
-        jHapus.setText("Hapus");
-        jHapus.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jHapusActionPerformed(evt);
-            }
-        });
-
         jButton1.setText("Cetak");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -223,17 +211,12 @@ public class MobilAllList extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jEdit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jHapus))
+                    .addComponent(jEdit, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jSimpan)
                         .addGap(18, 18, 18)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addGap(47, 47, 47)))
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(18, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -244,12 +227,10 @@ public class MobilAllList extends javax.swing.JFrame {
                     .addComponent(jSimpan)
                     .addComponent(jButton2))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jEdit)
-                    .addComponent(jHapus))
-                .addGap(18, 18, 18)
+                .addComponent(jEdit)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton1)
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 360, 200, 140));
@@ -380,7 +361,6 @@ public class MobilAllList extends javax.swing.JFrame {
         // TODO add your handling code here:
         jSimpan.setEnabled(false);
         jEdit.setEnabled(true);
-        jHapus.setEnabled(true);
         try {
             int row = tblMobil.rowAtPoint(evt.getPoint());
             int col = tblMobil.columnAtPoint(evt.getPoint());
@@ -444,18 +424,6 @@ public class MobilAllList extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jEditActionPerformed
 
-    private void jHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jHapusActionPerformed
-        // TODO add your handling code here:
-        int getId = id;
-        try {
-            mobil.hapusData(getId);
-            clear();
-        } catch (Exception e) {
-            
-        }
-        
-    }//GEN-LAST:event_jHapusActionPerformed
-
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         Config config = new Config();
@@ -515,7 +483,6 @@ public class MobilAllList extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jEdit;
-    private javax.swing.JButton jHapus;
     static javax.swing.JLabel jJumlahMobil;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;

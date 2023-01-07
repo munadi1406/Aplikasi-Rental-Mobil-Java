@@ -234,48 +234,9 @@ public class UsersClass {
             }
         }
     }
-    
-    
-    void hapusData(int id) {
-        try {
-            conn = getKoneksi();
-            stat = conn.createStatement();
-
-      
-            String sql = "delete from users where id_users = ?";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-         
-            stmt.setInt(1, id);
-
-            
-            int affectedRows = stmt.executeUpdate();
-            if (affectedRows > 0) {
-                
-                JOptionPane.showMessageDialog(null, "Users berhasil di hapus ", "Informasi", JOptionPane.INFORMATION_MESSAGE);
-                listUsers();
-            } else {
-             
-                JOptionPane.showMessageDialog(null, "Users gagal hapus ", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        } catch (SQLException e) {
-          
-            JOptionPane.showMessageDialog(null, "Gagal Menghapus User", "Error", JOptionPane.ERROR_MESSAGE);
-        } finally {
-            // Tutup koneksi
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                
-                }
-            }
-        }
-    }
-
 //    menampilkan list users
     void listUsers() {
         clearList();
         getDataAll();
     }
-
 }

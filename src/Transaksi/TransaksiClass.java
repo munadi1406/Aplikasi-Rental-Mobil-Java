@@ -313,7 +313,7 @@ public class TransaksiClass {
     }
 
 //    untuk edit data (transaksiList) jika mobil di kembalikan
-    void editData(String status, int idTransaksi, int idMobil) {
+    void editData(String status, int idTransaksi, int idMobil,Boolean statusSewa) {
         try {
             conn = getKoneksi();
             stat = conn.createStatement();
@@ -328,9 +328,14 @@ public class TransaksiClass {
             // Eksekusi statement
             int affectedRows = stmt.executeUpdate();
             if (affectedRows > 0) {
-
-//                untuk menambah stok mobil yang sudah di kembalikan
-                String sqlUpdate = "UPDATE mobil SET stok = stok + 1 WHERE id = ?";
+               String sqlUpdate = null;
+                if (statusSewa) {
+//                    belum di kembalikan tapi di ubah  menadi sudah di kembali kan jadi stok + 1
+                    sqlUpdate = "UPDATE mobil SET stok = stok + 1 WHERE id = ?";
+                } else if (!statusSewa) {
+//                    sudah di kembalikan dan di ubah belum di kembalikan jadi stok - 1
+                    sqlUpdate = "UPDATE mobil SET stok = stok - 1 WHERE id = ?";
+                }
                 PreparedStatement stmtUpdate = conn.prepareStatement(sqlUpdate);
                 stmtUpdate.setInt(1, idMobil);
                 stmtUpdate.executeUpdate();
@@ -351,6 +356,49 @@ public class TransaksiClass {
                     conn.close();
                 } catch (SQLException e) {
 
+                }
+            }
+        }
+    }
+
+    void hapusData(int id, Boolean statusHapus, int idMobil) {
+        try {
+            conn = getKoneksi();
+            stat = conn.createStatement();
+
+            String sql = "delete from transaksi where id_transaksi = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+
+            stmt.setInt(1, id);
+
+            int affectedRows = stmt.executeUpdate();
+            if (affectedRows > 0) {
+                //                untuk menambah stok mobil yang sudah di kembalikan
+                String sqlUpdate = null;
+                if (!statusHapus) {
+//                    belum di kembalikan tapi di hapus jadi stok + 1
+                    sqlUpdate = "UPDATE mobil SET stok = stok + 1 WHERE id = ?";
+                } else if (statusHapus) {
+//                    sudah di kembalikan tapi di hapus jadi stok - 1
+                    sqlUpdate = "UPDATE mobil SET stok = stok + 0 WHERE id = ?";
+                }
+                PreparedStatement stmtUpdate = conn.prepareStatement(sqlUpdate);
+                stmtUpdate.setInt(1, idMobil);
+                stmtUpdate.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Data berhasil di hapus ", "Informasi", JOptionPane.INFORMATION_MESSAGE);
+                listTransaksi(false);
+            } else {
+
+                JOptionPane.showMessageDialog(null, "Data gagal hapus ", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
             }
         }

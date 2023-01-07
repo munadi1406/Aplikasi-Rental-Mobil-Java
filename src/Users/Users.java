@@ -21,7 +21,6 @@ public class Users extends javax.swing.JFrame {
         jUsername.setText(null);
         jPasswrod.setText(null);
         jPanelGanti.setVisible(false);
-        jHapus.setEnabled(false);
         jEdit.setEnabled(false);
         jTambah.setEnabled(true);
     }
@@ -57,7 +56,6 @@ public class Users extends javax.swing.JFrame {
         jUsername = new javax.swing.JTextField();
         jTambah = new javax.swing.JButton();
         jEdit = new javax.swing.JButton();
-        jHapus = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jPanelGanti = new javax.swing.JPanel();
         passwordBaru = new javax.swing.JTextField();
@@ -134,13 +132,6 @@ public class Users extends javax.swing.JFrame {
             }
         });
 
-        jHapus.setText("Hapus");
-        jHapus.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jHapusActionPerformed(evt);
-            }
-        });
-
         jButton4.setText("Clear");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -169,7 +160,6 @@ public class Users extends javax.swing.JFrame {
                         .addComponent(jPasswrod, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(40, 40, 40)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jHapus)
                     .addComponent(jButton4)
                     .addComponent(jTambah)
                     .addComponent(jEdit))
@@ -191,11 +181,10 @@ public class Users extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jROle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3)
-                    .addComponent(jHapus))
+                    .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton4)
-                .addContainerGap(34, Short.MAX_VALUE))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
 
         jPanel2.add(jPanel1);
@@ -285,7 +274,6 @@ public class Users extends javax.swing.JFrame {
     private void jTableUsersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableUsersMouseClicked
         // TODO add your handling code here:
         jPanelGanti.setVisible(true);
-        jHapus.setEnabled(true);
         jEdit.setEnabled(true);
         jTambah.setEnabled(false);
         try {
@@ -345,17 +333,6 @@ public class Users extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButton5ActionPerformed
 
-    private void jHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jHapusActionPerformed
-        // TODO add your handling code here:
-        int getId = id;
-        try {
-            users.hapusData(getId);
-            clear();
-        } catch (Exception e) {
-        }
-
-    }//GEN-LAST:event_jHapusActionPerformed
-
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
         clear();
@@ -400,7 +377,6 @@ public class Users extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jEdit;
-    private javax.swing.JButton jHapus;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

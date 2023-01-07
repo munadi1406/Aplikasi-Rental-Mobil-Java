@@ -46,9 +46,9 @@ public class MobilClass {
         tblMobil.setModel(model);
         model.addColumn("Nomot Plat");
         model.addColumn("Merk");
-        model.addColumn("tahun pembuatan");
-        model.addColumn("warna");
-        model.addColumn("stok");
+        model.addColumn("Tahun Pembuatan");
+        model.addColumn("Warna");
+        model.addColumn("Stok");
         model.addColumn("Harga Sewa");
         model.addColumn("ID");
         TableColumn tc = tblMobil.getColumnModel().getColumn(model.getColumnCount() - 1);
@@ -192,41 +192,6 @@ public class MobilClass {
             }
         }
     }
-
-    void hapusData(int id) {
-        try {
-            conn = getKoneksi();
-            stat = conn.createStatement();
-
-            String sql = "delete from mobil where id = ?";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-
-            stmt.setInt(1, id);
-
-            int affectedRows = stmt.executeUpdate();
-            if (affectedRows > 0) {
-
-                JOptionPane.showMessageDialog(null, "Data berhasil di hapus ", "Informasi", JOptionPane.INFORMATION_MESSAGE);
-                listMobil();
-            } else {
-
-                JOptionPane.showMessageDialog(null, "Data gagal hapus ", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        } catch (SQLException e) {
-
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } finally {
-
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
     public void totalMobil() {
         ResultSet res = null;
         try {

@@ -5,6 +5,7 @@
  */
 package Transaksi;
 
+import Login.LoginClass;
 import javax.swing.JOptionPane;
 import config.layout;
 
@@ -18,8 +19,8 @@ public class TransaksiList extends javax.swing.JFrame {
      * Creates new form TransaksiList
      */
     TransaksiClass transaksi = new TransaksiClass();
-    
-    private void clear(){
+
+    private void clear() {
         jNamaPenyewa.setText(null);
         jMerk.setText(null);
     }
@@ -28,6 +29,7 @@ public class TransaksiList extends javax.swing.JFrame {
         initComponents();
         layout.Layout(this);
         transaksi.listTransaksi(false);
+        jHapus.setEnabled(false);
     }
 
     /**
@@ -51,6 +53,7 @@ public class TransaksiList extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jStatus = new javax.swing.JComboBox<>();
         jButton2 = new javax.swing.JButton();
+        jHapus = new javax.swing.JButton();
         jPilihData = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
 
@@ -113,6 +116,13 @@ public class TransaksiList extends javax.swing.JFrame {
             }
         });
 
+        jHapus.setText("Hapus");
+        jHapus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jHapusActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -134,6 +144,8 @@ public class TransaksiList extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jHapus)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton2)
                 .addContainerGap())
         );
@@ -153,7 +165,9 @@ public class TransaksiList extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton2)
+                    .addComponent(jHapus))
                 .addContainerGap(39, Short.MAX_VALUE))
         );
 
@@ -190,6 +204,12 @@ public class TransaksiList extends javax.swing.JFrame {
     private int id_transaksi;
     private void jTblTransaksiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTblTransaksiMouseClicked
         // TODO add your handling code here:
+        String role = LoginClass.getRole();
+        if (role.equals("user")) {
+            jHapus.setEnabled(false);
+        } else if (role.equals("admin")) {
+            jHapus.setEnabled(true);
+        }
         try {
             int row = jTblTransaksi.rowAtPoint(evt.getPoint());
             int col = jTblTransaksi.columnAtPoint(evt.getPoint());
@@ -200,16 +220,15 @@ public class TransaksiList extends javax.swing.JFrame {
 
                 id_mobil = (int) jTblTransaksi.getModel().getValueAt(row, 8);
                 id_transaksi = (int) jTblTransaksi.getModel().getValueAt(row, 9);
-                
+
 //            menampilkan ke textField
-                if (status.equals("Sudah di Kembalikan")) {
-                    jStatus.setSelectedItem("Sudah di Kembalikan");
-                } else {
-                    jStatus.setSelectedItem("Belum di Kembalikan");
+                if (status.equals("Sudah Di Kembalikan")) {
+                    jStatus.setSelectedIndex(0);
+                } else if (status.equals("Belum di Kembalikan")) {
+                    jStatus.setSelectedIndex(1);
                 }
                 jNamaPenyewa.setText(merk);
                 jMerk.setText(warna);
-
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Terjadi Error Saat Mengambil Data", "error", JOptionPane.ERROR_MESSAGE);
@@ -221,9 +240,14 @@ public class TransaksiList extends javax.swing.JFrame {
         String status = (String) jStatus.getSelectedItem();
         int idMobil = id_mobil;
         int idTransaksi = id_transaksi;
-        
+        Boolean statusSewa = false;
+        if (jStatus.getSelectedItem() == "Belum di Kembalikan") {
+            statusSewa = false;
+        } else {
+            statusSewa = true;
+        }
         try {
-            transaksi.editData(status, idTransaksi, idMobil);
+            transaksi.editData(status, idTransaksi, idMobil, statusSewa);
             clear();
         } catch (Exception e) {
         }
@@ -231,14 +255,30 @@ public class TransaksiList extends javax.swing.JFrame {
 
     private void jPilihDataItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jPilihDataItemStateChanged
         // TODO add your handling code here:
-        if(jPilihData.getSelectedItem() == "Belum Di Kembalikan"){
+        jFilterTanggal.setDate(null);
+        clear();
+        if (jPilihData.getSelectedItem() == "Belum Di Kembalikan") {
             transaksi.listTransaksi(false);
-            clear();
-        }else if(jPilihData.getSelectedItem() == "Semua List Transaksi"){
+        } else if (jPilihData.getSelectedItem() == "Semua List Transaksi") {
             transaksi.listTransaksi(true);
-            clear();
         }
     }//GEN-LAST:event_jPilihDataItemStateChanged
+
+    private void jHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jHapusActionPerformed
+        // TODO add your handling code here:
+        Boolean statusHapus = false;
+        if (jStatus.getSelectedItem() == "Belum di Kembalikan") {
+            statusHapus = false;
+        } else {
+            statusHapus = true;
+        }
+        int idTransaksi = id_transaksi;
+        int idMobil = id_mobil;
+        try {
+            transaksi.hapusData(idTransaksi, statusHapus, idMobil);
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_jHapusActionPerformed
 
     /**
      * @param args the command line arguments
@@ -278,6 +318,7 @@ public class TransaksiList extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton2;
     private com.toedter.calendar.JDateChooser jFilterTanggal;
+    private javax.swing.JButton jHapus;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

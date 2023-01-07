@@ -25,7 +25,6 @@ public class Pelanggan extends javax.swing.JFrame {
         jNoTelepon.setText(null);
         jAlamat.setText(null);
         jEdit.setEnabled(false);
-        jHapus.setEnabled(false);
         jTambah.setEnabled(true);
     }
 
@@ -56,7 +55,6 @@ public class Pelanggan extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jTambah = new javax.swing.JButton();
         jEdit = new javax.swing.JButton();
-        jHapus = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTablePelanggan = new javax.swing.JTable();
@@ -96,13 +94,6 @@ public class Pelanggan extends javax.swing.JFrame {
             }
         });
 
-        jHapus.setText("Hapus");
-        jHapus.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jHapusActionPerformed(evt);
-            }
-        });
-
         jButton3.setText("Clear");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -129,7 +120,6 @@ public class Pelanggan extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jTambah, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jEdit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jHapus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -155,13 +145,11 @@ public class Pelanggan extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jEdit)
                         .addGap(18, 18, 18)
-                        .addComponent(jHapus)))
-                .addGap(18, 18, 18)
-                .addComponent(jButton3)
-                .addContainerGap(16, Short.MAX_VALUE))
+                        .addComponent(jButton3)))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 280, -1, -1));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 280, -1, 140));
 
         jTablePelanggan.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -218,7 +206,6 @@ public class Pelanggan extends javax.swing.JFrame {
     private void jTablePelangganMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTablePelangganMouseClicked
         // TODO add your handling code here:
         jEdit.setEnabled(true);
-        jHapus.setEnabled(true);
         jTambah.setEnabled(false);
         try {
             int row = jTablePelanggan.rowAtPoint(evt.getPoint());
@@ -254,17 +241,6 @@ public class Pelanggan extends javax.swing.JFrame {
 
         }
     }//GEN-LAST:event_jEditActionPerformed
-
-    private void jHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jHapusActionPerformed
-        // TODO add your handling code here:
-        int getId = id;
-        try {
-            pelanggan.hapusData(getId);
-            clear();
-        } catch (Exception e) {
-
-        }
-    }//GEN-LAST:event_jHapusActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
@@ -320,7 +296,6 @@ public class Pelanggan extends javax.swing.JFrame {
     private javax.swing.JTextField jAlamat;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jEdit;
-    private javax.swing.JButton jHapus;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

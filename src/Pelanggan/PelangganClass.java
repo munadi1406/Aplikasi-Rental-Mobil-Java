@@ -167,46 +167,6 @@ public class PelangganClass {
             }
         }
     }
-
-    
-    
-    
-    void hapusData(int id) {
-        try {
-            conn = getKoneksi();
-            stat = conn.createStatement();
-
-        
-            String sql = "delete from pelanggan where id_pelanggan = ?";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-          
-            stmt.setInt(1, id);
-
-        
-            int affectedRows = stmt.executeUpdate();
-            if (affectedRows > 0) {
-            
-                JOptionPane.showMessageDialog(null, "Data Pelanggan berhasil di hapus ", "Informasi", JOptionPane.INFORMATION_MESSAGE);
-                listPelanggan();
-            } else {
-     
-                JOptionPane.showMessageDialog(null, "Data Pelanggan gagal hapus ", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        } catch (SQLException e) {
-
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } finally {
-            // Tutup koneksi
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
     void listPelanggan() {
         clearList();
         getDataAll();

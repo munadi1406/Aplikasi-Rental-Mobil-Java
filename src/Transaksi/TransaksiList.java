@@ -28,7 +28,8 @@ public class TransaksiList extends javax.swing.JFrame {
     public TransaksiList() {
         initComponents();
         layout.Layout(this);
-        transaksi.listTransaksi(false);
+        String valueKondisi = (String) jPilihData.getSelectedItem();
+        transaksi.listTransaksi(false, valueKondisi);
         jHapus.setEnabled(false);
     }
 
@@ -173,7 +174,7 @@ public class TransaksiList extends javax.swing.JFrame {
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 270, 580, 250));
 
-        jPilihData.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Belum Di Kembalikan", "Semua List Transaksi" }));
+        jPilihData.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Semua List Transaksi", "Belum di Kembalikan", "Sudah Di Kembalikan" }));
         jPilihData.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 jPilihDataItemStateChanged(evt);
@@ -190,11 +191,21 @@ public class TransaksiList extends javax.swing.JFrame {
     private void jFilterTanggalPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jFilterTanggalPropertyChange
         // TODO add your handling code here:
         try {
-            if (jFilterTanggal.getDate() != null) {
-                java.util.Date filterTanggal = jFilterTanggal.getDate();
-                java.sql.Date tglFilter = new java.sql.Date(filterTanggal.getTime());
-                transaksi.listTransaksiFilter(tglFilter);
-                clear();
+            String valueKondisi = (String) jPilihData.getSelectedItem();
+            if (jPilihData.getSelectedItem() == "Sudah Di Kembalikan" || jPilihData.getSelectedItem() == "Belum di Kembalikan") {
+                if (jFilterTanggal.getDate() != null) {
+                    java.util.Date filterTanggal = jFilterTanggal.getDate();
+                    java.sql.Date tglFilter = new java.sql.Date(filterTanggal.getTime());
+                    transaksi.listTransaksiFilter(tglFilter, false, valueKondisi);
+                    clear();
+                }
+            } else if (jPilihData.getSelectedItem() == "Semua List Transaksi") {
+                if (jFilterTanggal.getDate() != null) {
+                    java.util.Date filterTanggal = jFilterTanggal.getDate();
+                    java.sql.Date tglFilter = new java.sql.Date(filterTanggal.getTime());
+                    transaksi.listTransaksiFilter(tglFilter, true, valueKondisi);
+                    clear();
+                }
             }
         } catch (Exception e) {
         }
@@ -257,10 +268,12 @@ public class TransaksiList extends javax.swing.JFrame {
         // TODO add your handling code here:
         jFilterTanggal.setDate(null);
         clear();
-        if (jPilihData.getSelectedItem() == "Belum Di Kembalikan") {
-            transaksi.listTransaksi(false);
+        if (jPilihData.getSelectedItem() == "Belum di Kembalikan" || jPilihData.getSelectedItem() == "Sudah Di Kembalikan") {
+            String value = (String) jPilihData.getSelectedItem();
+            transaksi.listTransaksi(true, value); //list tanpa filter dengan kondisi
         } else if (jPilihData.getSelectedItem() == "Semua List Transaksi") {
-            transaksi.listTransaksi(true);
+            String value = (String) jPilihData.getSelectedItem();
+            transaksi.listTransaksi(false, value); //list tanpa filter tanpa kondisi
         }
     }//GEN-LAST:event_jPilihDataItemStateChanged
 

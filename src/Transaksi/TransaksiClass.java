@@ -194,7 +194,7 @@ public class TransaksiClass {
     }
 
 //    unutk menampilkan list seluruh transaksi untuk form transaksiList
-    void getDataTransaksi(Date tanggalFilter, Boolean pilih) {
+    void getDataTransaksi(Date tanggalFilter, Boolean pilih, String valueKondisi) {
 
         model.getDataVector().removeAllElements();
         model.fireTableDataChanged();
@@ -204,16 +204,29 @@ public class TransaksiClass {
         try {
             conn = getKoneksi();
             stat = conn.createStatement();
-            if (tanggalFilter != null && !pilih) {
-                sql = " select t.id_transaksi, t.id_mobil ,u.username as Username,u.role as Role ,p.nama as Nama_Pelanggan ,p.no_telepon as No_Telepon,p.alamat as alamat,m.merk as Merk,t.status, t.tgl_kembali as Tanggal_Kembali  from transaksi t join users u on u.id_users = t.id_user join pelanggan p on p.id_pelanggan = t.id_pelanggan join mobil m on m.id = t.id_mobil where status = 'Belum di Kembalikan' AND t.tgl_kembali = ?";
+            if (tanggalFilter != null && !pilih) { // true - false filter aktif dengan kondisi dari comboBox
+// query filter dan menjalankan filter berdasarkan value dari combobox
+                sql = " select t.id_transaksi, t.id_mobil ,u.username as Username,u.role as Role ,p.nama as Nama_Pelanggan ,p.no_telepon as No_Telepon,p.alamat as alamat,m.merk as Merk,t.status, t.tgl_kembali as Tanggal_Kembali  from transaksi t join users u on u.id_users = t.id_user join pelanggan p on p.id_pelanggan = t.id_pelanggan join mobil m on m.id = t.id_mobil where status = ? AND t.tgl_kembali = ?";
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                stmt.setString(1, valueKondisi);
+                stmt.setDate(2, tanggalFilter);
+                res = stmt.executeQuery();
+            } else if (tanggalFilter != null && pilih) { // true - true fliter aktif tanpa kondisi (seluruh list)
+// query filter dan menjalankan filter tanpa kondisi
+                sql = " select t.id_transaksi, t.id_mobil ,u.username as Username,u.role as Role ,p.nama as Nama_Pelanggan ,p.no_telepon as No_Telepon,p.alamat as alamat,m.merk as Merk,t.status, t.tgl_kembali as Tanggal_Kembali  from transaksi t join users u on u.id_users = t.id_user join pelanggan p on p.id_pelanggan = t.id_pelanggan join mobil m on m.id = t.id_mobil where tgl_kembali = ?";
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 stmt.setDate(1, tanggalFilter);
                 res = stmt.executeQuery();
-            } else if (pilih && tanggalFilter == null) {
-                sql = "select t.id_transaksi, t.id_mobil ,u.username as Username,u.role as Role ,p.nama as Nama_Pelanggan ,p.no_telepon as No_Telepon,p.alamat as alamat,m.merk as Merk,t.status, t.tgl_kembali as Tanggal_Kembali  from transaksi t join users u on u.id_users = t.id_user join pelanggan p on p.id_pelanggan = t.id_pelanggan join mobil m on m.id = t.id_mobil";
-                res = stat.executeQuery(sql);
-            } else {
-                sql = " select t.id_transaksi, t.id_mobil ,u.username as Username,u.role as Role ,p.nama as Nama_Pelanggan ,p.no_telepon as No_Telepon,p.alamat as alamat,m.merk as Merk,t.status, t.tgl_kembali as Tanggal_Kembali  from transaksi t join users u on u.id_users = t.id_user join pelanggan p on p.id_pelanggan = t.id_pelanggan join mobil m on m.id = t.id_mobil where status = 'Belum di Kembalikan'";
+            } else if (pilih && tanggalFilter == null) { // true - false menampilkan list berdasarkan value comboBox , filter tidak aktif
+//                menemapilkan list berdasarkan value dari comboBox 
+                sql = "select t.id_transaksi, t.id_mobil ,u.username as Username,u.role as Role ,p.nama as Nama_Pelanggan ,p.no_telepon as No_Telepon,p.alamat as alamat,m.merk as Merk,t.status, t.tgl_kembali as Tanggal_Kembali  from transaksi t join users u on u.id_users = t.id_user join pelanggan p on p.id_pelanggan = t.id_pelanggan join mobil m on m.id = t.id_mobil where status = ? ";
+//                res = stat.executeQuery(sql);
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                stmt.setString(1, valueKondisi);
+                res = stmt.executeQuery();
+            } else { // false - true
+//                menampilkan seluruh list transaksi 
+                sql = " select t.id_transaksi, t.id_mobil ,u.username as Username,u.role as Role ,p.nama as Nama_Pelanggan ,p.no_telepon as No_Telepon,p.alamat as alamat,m.merk as Merk,t.status, t.tgl_kembali as Tanggal_Kembali  from transaksi t join users u on u.id_users = t.id_user join pelanggan p on p.id_pelanggan = t.id_pelanggan join mobil m on m.id = t.id_mobil";
                 res = stat.executeQuery(sql);
             }
             while (res.next()) {
@@ -313,7 +326,7 @@ public class TransaksiClass {
     }
 
 //    untuk edit data (transaksiList) jika mobil di kembalikan
-    void editData(String status, int idTransaksi, int idMobil,Boolean statusSewa) {
+    void editData(String status, int idTransaksi, int idMobil, Boolean statusSewa) {
         try {
             conn = getKoneksi();
             stat = conn.createStatement();
@@ -328,7 +341,7 @@ public class TransaksiClass {
             // Eksekusi statement
             int affectedRows = stmt.executeUpdate();
             if (affectedRows > 0) {
-               String sqlUpdate = null;
+                String sqlUpdate = null;
                 if (statusSewa) {
 //                    belum di kembalikan tapi di ubah  menadi sudah di kembali kan jadi stok + 1
                     sqlUpdate = "UPDATE mobil SET stok = stok + 1 WHERE id = ?";
@@ -341,7 +354,7 @@ public class TransaksiClass {
                 stmtUpdate.executeUpdate();
 
                 JOptionPane.showMessageDialog(null, "Data berhasil di ubah ", "Informasi", JOptionPane.INFORMATION_MESSAGE);
-                listTransaksi(false);
+                listTransaksi(false, "Belum di Kembalikan");
             } else {
 
                 JOptionPane.showMessageDialog(null, "Data gagal ubah ", "Error", JOptionPane.ERROR_MESSAGE);
@@ -386,7 +399,7 @@ public class TransaksiClass {
                 stmtUpdate.setInt(1, idMobil);
                 stmtUpdate.executeUpdate();
                 JOptionPane.showMessageDialog(null, "Data berhasil di hapus ", "Informasi", JOptionPane.INFORMATION_MESSAGE);
-                listTransaksi(false);
+                listTransaksi(false, "Belum di Kembalikan");
             } else {
 
                 JOptionPane.showMessageDialog(null, "Data gagal hapus ", "Error", JOptionPane.ERROR_MESSAGE);
@@ -398,7 +411,7 @@ public class TransaksiClass {
                 try {
                     conn.close();
                 } catch (SQLException e) {
-                    e.printStackTrace();
+
                 }
             }
         }
@@ -416,20 +429,15 @@ public class TransaksiClass {
         getDataPelanggan();
     }
 //menampilkan list transaksi di form listtransaksi
-
-    void listTransaksi(Boolean pilih) {
-        //parameter pilih berfungsi untuk memvalidasi jika true maka yang di tampilan seluruh list transaksi
-        //jika false maka transaksi dengan kondisi belum di kembalikan yang akan di tampilkan
-        //parameter pilij ini dikirim lagi ke method getDataTransaksi
+    void listTransaksi(Boolean pilih, String valueKondisi) {
         clearListTransaksi();
         Date tanggal = null;
-        getDataTransaksi(tanggal, pilih);
+        getDataTransaksi(tanggal, pilih, valueKondisi);
     }
 
-    void listTransaksiFilter(Date filterTanggal) {
+    void listTransaksiFilter(Date filterTanggal,Boolean tes,String valueKondisi) {
         clearListTransaksi();
-        Boolean tes = false;
-        getDataTransaksi(filterTanggal, tes);
+        getDataTransaksi(filterTanggal, tes, valueKondisi);
     }
 
 //    method search untuk mencari di tabel mobil

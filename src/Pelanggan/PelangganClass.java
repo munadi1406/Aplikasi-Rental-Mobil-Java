@@ -154,7 +154,7 @@ public class PelangganClass {
                 JOptionPane.showMessageDialog(null, "Data gagal ubah ", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } catch (SQLException e) {
-     
+              e.printStackTrace();
             JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         } finally {
             // Tutup koneksi

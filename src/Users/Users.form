@@ -200,9 +200,6 @@
               </AuxValues>
             </Component>
             <Component class="javax.swing.JTextField" name="jPasswrod">
-              <Properties>
-                <Property name="editable" type="boolean" value="false"/>
-              </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="jUsername">
               <Events>

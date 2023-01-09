@@ -110,8 +110,6 @@ public class Users extends javax.swing.JFrame {
 
         jROle.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "admin", "user" }));
 
-        jPasswrod.setEditable(false);
-
         jUsername.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jUsernameActionPerformed(evt);

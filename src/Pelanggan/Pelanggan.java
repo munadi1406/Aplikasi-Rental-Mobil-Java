@@ -235,7 +235,7 @@ public class Pelanggan extends javax.swing.JFrame {
         String alamat = jAlamat.getText();
 
         try {
-            pelanggan.editData(nama, alamat, noTelepon, getId);
+            pelanggan.editData(nama, noTelepon, alamat, getId);
             clear();
         } catch (Exception e) {
 

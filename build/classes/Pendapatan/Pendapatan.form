@@ -86,10 +86,11 @@
             <TitledBorder title="Filter ">
               <Border PropertyName="innerBorder" info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
                 <LineBorder roundedCorners="true" thickness="5">
-                  <Color PropertyName="color" blue="ff" green="cc" red="cc" type="rgb"/>
+                  <Color PropertyName="color" blue="62" green="30" red="36" type="rgb"/>
                 </LineBorder>
               </Border>
               <Font PropertyName="font" name="Tahoma" size="12" style="1"/>
+              <Color PropertyName="color" blue="62" green="30" red="36" type="rgb"/>
             </TitledBorder>
           </Border>
         </Property>
@@ -205,7 +206,7 @@
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/assets/transaksi bg.jpg"/>
+          <Image iconType="3" name="/assets/background.png"/>
         </Property>
       </Properties>
       <Constraints>

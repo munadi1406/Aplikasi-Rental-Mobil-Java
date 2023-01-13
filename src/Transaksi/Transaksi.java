@@ -116,7 +116,7 @@ public class Transaksi extends javax.swing.JFrame {
                 jSearchMobilKeyTyped(evt);
             }
         });
-        getContentPane().add(jSearchMobil, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 20, 160, -1));
+        getContentPane().add(jSearchMobil, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 20, 160, -1));
 
         tblMobilTersedia.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -135,13 +135,16 @@ public class Transaksi extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblMobilTersediaMouseClicked(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tblMobilTersediaMousePressed(evt);
+            }
         });
         jScrollPane2.setViewportView(tblMobilTersedia);
 
-        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 790, 110));
+        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 780, 110));
 
         jPanelTablePelanggan.setBackground(new java.awt.Color(255, 255, 255));
-        jPanelTablePelanggan.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 255), 4, true), "Data Pelanggan"));
+        jPanelTablePelanggan.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(54, 48, 98), 4, true), "Data Pelanggan"));
 
         jTablePelanggan.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -193,7 +196,7 @@ public class Transaksi extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        getContentPane().add(jPanelTablePelanggan, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 180, 420, 240));
+        getContentPane().add(jPanelTablePelanggan, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 170, 420, 240));
 
         jButton1.setText("Tambah");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -217,8 +220,10 @@ public class Transaksi extends javax.swing.JFrame {
         jTotalBayar.setEditable(false);
         getContentPane().add(jTotalBayar, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 290, 140, 30));
 
+        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
         jLabel11.setText("Cari Merk Mobil");
-        getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(552, 20, 80, 20));
+        getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 20, 120, 20));
 
         jLabel12.setText("Total Bayar");
         getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 270, -1, 20));
@@ -251,7 +256,7 @@ public class Transaksi extends javax.swing.JFrame {
         getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 440, -1, 30));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 255), 4, true));
+        jPanel1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(54, 48, 98), 4, true));
 
         jLabel3.setText("Merk");
 
@@ -354,7 +359,7 @@ public class Transaksi extends javax.swing.JFrame {
                 .addComponent(jAlamat, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, 350, 320));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, 350, 320));
 
         jButton3.setText("Refresh");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -362,10 +367,10 @@ public class Transaksi extends javax.swing.JFrame {
                 jButton3ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 20, -1, -1));
+        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 20, -1, -1));
 
-        jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/transaksi bg.jpg"))); // NOI18N
-        getContentPane().add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 810, 520));
+        jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/background.png"))); // NOI18N
+        getContentPane().add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 510));
 
         jMenu1.setText("Menu");
 
@@ -394,7 +399,6 @@ public class Transaksi extends javax.swing.JFrame {
 
     private void tblMobilTersediaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMobilTersediaMouseClicked
         // TODO add your handling code here:
-        jPanelTablePelanggan.setVisible(true);
         try {
             int row = tblMobilTersedia.rowAtPoint(evt.getPoint());
             int col = tblMobilTersedia.columnAtPoint(evt.getPoint());
@@ -559,6 +563,11 @@ public class Transaksi extends javax.swing.JFrame {
         this.dispose();
         new Transaksi().setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void tblMobilTersediaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMobilTersediaMousePressed
+        // TODO add your handling code here:
+         jPanelTablePelanggan.setVisible(true);
+    }//GEN-LAST:event_tblMobilTersediaMousePressed
 
     /**
      * @param args the command line arguments

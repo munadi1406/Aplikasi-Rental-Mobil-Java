@@ -41,6 +41,9 @@ public class Login extends javax.swing.JFrame {
         TUsername = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         TPassword = new javax.swing.JPasswordField();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -67,11 +70,11 @@ public class Login extends javax.swing.JFrame {
         TUsername.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         getContentPane().add(TUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 180, 260, 20));
 
-        jButton1.setBackground(new java.awt.Color(255, 202, 238));
+        jButton1.setBackground(new java.awt.Color(77, 76, 125));
         jButton1.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("LOGIN");
-        jButton1.setBorder(null);
-        jButton1.setBorderPainted(false);
+        jButton1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 4, true));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -82,7 +85,17 @@ public class Login extends javax.swing.JFrame {
         TPassword.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         getContentPane().add(TPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 230, 260, -1));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/v960-ning-05.jpg"))); // NOI18N
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/graph (2).png"))); // NOI18N
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 80, 90, 100));
+
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/graph (1).png"))); // NOI18N
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 70, 110));
+
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/wave (1).png"))); // NOI18N
+        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 250, 360, 170));
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/login background.png"))); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 360, 420));
 
         pack();
@@ -157,5 +170,8 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel8;
     // End of variables declaration//GEN-END:variables
 }

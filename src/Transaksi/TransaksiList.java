@@ -96,7 +96,7 @@ public class TransaksiList extends javax.swing.JFrame {
         getContentPane().add(jFilterTanggal, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 30, 174, -1));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 255), 5, true), "Status Sewa", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(54, 48, 98), 5, true), "Status Sewa", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
 
         jLabel2.setText("Nama Penyewa");
 
@@ -182,7 +182,7 @@ public class TransaksiList extends javax.swing.JFrame {
         });
         getContentPane().add(jPilihData, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 30, 170, -1));
 
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/list transaksi.jpg"))); // NOI18N
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/background transaksi lis.png"))); // NOI18N
         getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 530));
 
         pack();

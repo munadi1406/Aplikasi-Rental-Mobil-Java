@@ -30,7 +30,6 @@ public class MobilAllList extends javax.swing.JFrame {
      * Creates new form MobilAllList
      */
     MobilClass mobil = new MobilClass();
-    private final String val = "All";
     private int id;
 
     //method clear data
